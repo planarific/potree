@@ -1,0 +1,241 @@
+{
+	type: 'Potree',
+	version: 1.7,
+	settings: {
+		pointBudget: 1000000,
+		fov: 60,
+		edlEnabled: false,
+		edlRadius: 1.4,
+		edlStrength: 0.4,
+		background: 'skybox',
+		minNodeSize: 30,
+		showBoundingBoxes: false,
+	},
+	view: {
+		position: [
+			432800.7057511026,
+			385505.7765450837,
+			127.93977459800412,
+		],
+		target: [
+			432788.61186837446,
+			385516.33542179054,
+			122.3669636361127,
+		],
+	},
+	classification: {
+		'0': {
+			visible: true,
+			name: 'never classified',
+			color: [
+				0.5,
+				0.5,
+				0.5,
+				1,
+			],
+		},
+		'1': {
+			visible: true,
+			name: 'unclassified',
+			color: [
+				0.5,
+				0.5,
+				0.5,
+				1,
+			],
+		},
+		'2': {
+			visible: true,
+			name: 'ground',
+			color: [
+				0.63,
+				0.32,
+				0.18,
+				1,
+			],
+		},
+		'3': {
+			visible: true,
+			name: 'low vegetation',
+			color: [
+				0,
+				1,
+				0,
+				1,
+			],
+		},
+		'4': {
+			visible: true,
+			name: 'medium vegetation',
+			color: [
+				0,
+				0.8,
+				0,
+				1,
+			],
+		},
+		'5': {
+			visible: true,
+			name: 'high vegetation',
+			color: [
+				0,
+				0.6,
+				0,
+				1,
+			],
+		},
+		'6': {
+			visible: true,
+			name: 'building',
+			color: [
+				1,
+				0.66,
+				0,
+				1,
+			],
+		},
+		'7': {
+			visible: true,
+			name: 'low point(noise)',
+			color: [
+				1,
+				0,
+				1,
+				1,
+			],
+		},
+		'8': {
+			visible: true,
+			name: 'key-point',
+			color: [
+				1,
+				0,
+				0,
+				1,
+			],
+		},
+		'9': {
+			visible: true,
+			name: 'water',
+			color: [
+				0,
+				0,
+				1,
+				1,
+			],
+		},
+		'12': {
+			visible: true,
+			name: 'overlap',
+			color: [
+				1,
+				1,
+				0,
+				1,
+			],
+		},
+		DEFAULT: {
+			visible: true,
+			name: 'default',
+			color: [
+				0.3,
+				0.6,
+				0.6,
+				0.5,
+			],
+		},
+	},
+	pointclouds: [
+		{
+			name: 'sigeom.sa',
+			url: 'https://pfpotreeexperiments.blob.core.windows.net/samson/metadata.json',
+			position: [
+				432774.568,
+				385505.326,
+				119.074,
+			],
+			rotation: [
+				0,
+				0,
+				0,
+				'XYZ',
+			],
+			scale: [
+				1,
+				1,
+				1,
+			],
+			material: {
+				activeAttributeName: 'rgba',
+				ranges: [
+					{
+						name: 'elevationRange',
+						value: [
+							119.074,
+							131.529,
+						],
+					},
+					{
+						name: 'intensityRange',
+						value: [
+							6,
+							4091,
+						],
+					},
+				],
+				size: 1,
+				minSize: 2,
+				pointSizeType: 'ADAPTIVE',
+				matcap: 'matcap.jpg',
+			},
+		},
+	],
+	measurements: [
+		{
+			uuid: 'B682FD5E-02ED-4E40-8F66-9F594FD1DEBE',
+			name: 'Area',
+			points: [
+				[
+					432788.31600000267,
+					385514.0879999084,
+					124.69800007247925,
+				],
+				[
+					432790.3050001145,
+					385513.3219999952,
+					123.54900005531037,
+				],
+				[
+					432791.3239999295,
+					385515.9050000012,
+					123.51599994373048,
+				],
+				[
+					432789.22400002484,
+					385516.66100001335,
+					124.72799995612824,
+				],
+			],
+			showDistances: true,
+			showCoordinates: false,
+			showArea: true,
+			closed: true,
+			showAngles: false,
+			showHeight: false,
+			showCircle: false,
+			showAzimuth: false,
+			showEdges: true,
+			color: [
+				1,
+				0,
+				0,
+			],
+		},
+	],
+	volumes: [],
+	cameraAnimations: [],
+	profiles: [],
+	annotations: [],
+	orientedImages: [],
+	geopackages: [],
+}

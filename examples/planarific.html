@@ -84,7 +84,7 @@
 
       // Load and add point cloud to scene
       Potree.loadPointCloud(
-        '../pointclouds/planarific/metadata.json',
+        'https://pfpotreeexperiments.blob.core.windows.net/samson/metadata.json',
         'sigeom.sa',
         (e) => {
           let scene = viewer.scene;
@@ -103,7 +103,11 @@
           // 	[589851.587, 231428.213, 715.634],
           // );
         }
-      );
+      );s
+
+      viewer.loadProject('./resources/potree.json5').then(() => {
+        console.log('project loaded');
+      });
     </script>
   </body>
 </html>
