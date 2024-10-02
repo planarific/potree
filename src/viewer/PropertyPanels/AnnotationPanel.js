@@ -49,6 +49,11 @@ export class AnnotationPanel {
 		</div>
 		`);
 
+    // this.elRemove = this.elContent.find('img[name=remove]');
+    // this.elRemove.click(() => {
+    //   this.viewer.scene.removeAnnotation(annotation);
+    // });
+
     this.elCopyPosition = this.elContent.find('img[name=copyPosition]');
     this.elCopyPosition.click(() => {
       let pos = this.annotation.position.toArray();

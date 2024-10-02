@@ -101,6 +101,17 @@ function loadMeasurement(viewer, data) {
     measure.addMarker(pos);
   }
 
+  console.log(viewer.scene.annotations.children);
+
+  if (data.annotationId) {
+    const annotation = viewer.scene.annotations.children.find(
+      (a) => a.uuid === data.annotationId
+    );
+    if (annotation) {
+      measure.annotation = annotation;
+    }
+  }
+
   viewer.scene.addMeasurement(measure);
 }
 
@@ -318,6 +329,8 @@ export async function loadProject(viewer, data) {
     pointcloudPromises.push(promise);
   }
 
+  loadAnnotations(viewer, data.annotations);
+
   for (const measure of data.measurements) {
     loadMeasurement(viewer, measure);
   }
@@ -339,8 +352,6 @@ export async function loadProject(viewer, data) {
       loadOrientedImages(viewer, images);
     }
   }
-
-  loadAnnotations(viewer, data.annotations);
 
   loadClassification(viewer, data.classification);
 

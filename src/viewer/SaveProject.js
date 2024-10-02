@@ -102,6 +102,7 @@ function createMeasurementData(measurement) {
   const data = {
     uuid: measurement.uuid,
     name: measurement.name,
+    annotationId: measurement.annotation ? measurement.annotation.uuid : null,
     points: measurement.points.map((p) => p.position.toArray()),
     showDistances: measurement.showDistances,
     showCoordinates: measurement.showCoordinates,

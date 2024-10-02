@@ -250,7 +250,9 @@ export class MeasuringTool extends EventDispatcher {
       domElement.removeEventListener('mouseup', insertionCallback, false);
       this.viewer.removeEventListener('cancel_insertions', cancel.callback);
       let centroid = this.calculateCentroid(measure.points);
-      this.addAnnotation(measure.name, centroid);
+      let annotation = this.createAnnotation(measure.name, centroid);
+      this.viewer.scene.annotations.add(annotation);
+      measure.annotation = annotation;
     };
 
     if (measure.maxMarkers > 1) {
@@ -281,9 +283,8 @@ export class MeasuringTool extends EventDispatcher {
     return centroid;
   }
 
-  addAnnotation(name, position) {
+  createAnnotation(name, position) {
     let cameraPosition = this.viewer.scene.view.position.clone(); // Camera position
-    console.log(cameraPosition);
 
     let annotation = new Potree.Annotation({
       title: name, // Use area name for the annotation label
@@ -293,8 +294,7 @@ export class MeasuringTool extends EventDispatcher {
       //description: 'Annotation for ' + areaName, // Optional description
     });
 
-    // Add the annotation to the scene
-    this.viewer.scene.annotations.add(annotation);
+    return annotation;
   }
 
   update() {

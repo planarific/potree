@@ -8,8 +8,8 @@ export class PointPanel extends MeasurePanel {
     this.elContent = $(`
 			<div class="measurement_content selectable">
 				<span class="coordinates_table_container"></span>
-				<br>
-				<span class="attributes_table_container"></span>
+				<!--br>
+				<span-- class="attributes_table_container"></span-->
 
 				<!-- ACTIONS -->
 				<div style="display: flex; margin-top: 12px">
@@ -23,7 +23,9 @@ export class PointPanel extends MeasurePanel {
     this.elRemove = this.elContent.find('img[name=remove]');
     this.elRemove.click(() => {
       this.viewer.scene.removeMeasurement(measurement);
+      this.viewer.scene.removeAnnotation(measurement.annotation);
       console.log('remove meas');
+      console.log(measurement.annotation);
     });
 
     this.propertiesPanel.addVolatileListener(
