@@ -12,6 +12,7 @@ export class Annotation extends EventDispatcher {
     this._description = args.description || '';
     this.offset = new THREE.Vector3();
     this.uuid = THREE.Math.generateUUID();
+    this._addToJstree = false;
 
     if (!args.position) {
       this.position = null;
@@ -602,5 +603,9 @@ export class Annotation extends EventDispatcher {
 
   toString() {
     return 'Annotation: ' + this._title;
+  }
+
+  get addToJstree() {
+    return this._addToJstree;
   }
 }

@@ -725,7 +725,7 @@ export class Sidebar {
     };
 
     let onAnnotationAdded = (e) => {
-      return;
+      if (!e.annotation.addToJstree) return;
 
       let annotation = e.annotation;
       let annotationIcon = `${Potree.resourcePath}/icons/annotation.svg`;

@@ -356,8 +356,8 @@ export class MapView {
     };
 
     this.onAnnotationAdded = (e) => {
-      return;
-	  
+      if (!e.annotation.addToJstree) return;
+
       if (!this.sceneProjection) {
         return;
       }
