@@ -243,7 +243,6 @@ export class Sidebar {
             measurementName = 'Area'; // Default to "Area" if no input is given
           }
           let measurement = this.measuringTool.startInsertion({
-            isArea: true,
             showDistances: false,
             showArea: false,
             closed: true,
@@ -726,8 +725,9 @@ export class Sidebar {
     };
 
     let onAnnotationAdded = (e) => {
-      let annotation = e.annotation;
+      return;
 
+      let annotation = e.annotation;
       let annotationIcon = `${Potree.resourcePath}/icons/annotation.svg`;
       let parentID = this.annotationMapping.get(annotation.parent);
       let annotationID = createNode(

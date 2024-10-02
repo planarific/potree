@@ -914,7 +914,6 @@ export class Utils {
   }
 
   static getMeasurementIcon(measurement) {
-	console.log('isArea: ', measurement.isArea);
     if (measurement instanceof Measure) {
       if (
         measurement.showDistances &&
@@ -923,10 +922,9 @@ export class Utils {
       ) {
         return `${Potree.resourcePath}/icons/distance.svg`;
       } else if (
-        (measurement.showDistances &&
-          measurement.showArea &&
-          !measurement.showAngles) ||
-        measurement.isArea
+        measurement.showDistances &&
+        measurement.showArea &&
+        !measurement.showAngles
       ) {
         return `${Potree.resourcePath}/icons/area.svg`;
       } else if (measurement.maxMarkers === 1) {
@@ -940,7 +938,7 @@ export class Utils {
       } else if (measurement.showHeight) {
         return `${Potree.resourcePath}/icons/height.svg`;
       } else {
-        return `${Potree.resourcePath}/icons/distance.svg`;
+        return `${Potree.resourcePath}/icons/area.svg`;
       }
     } else if (measurement instanceof Profile) {
       return `${Potree.resourcePath}/icons/profile.svg`;

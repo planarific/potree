@@ -974,15 +974,6 @@ export class Measure extends THREE.Object3D {
     this.update();
   }
 
-  get isArea() {
-    return this._isArea;
-  }
-
-  set isArea(value) {
-    this._isArea = value;
-    this.update();
-  }
-
   get closed() {
     return this._closed;
   }
