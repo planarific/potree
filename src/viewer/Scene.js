@@ -335,6 +335,12 @@ export class Scene extends EventDispatcher {
     }
   }
 
+  removeAllAnnotations() {
+    while (this.annotations.children.length > 0) {
+      this.removeAnnotation(this.annotations.children[0]);
+    }
+  }
+
   removeAllClipVolumes() {
     let clipVolumes = this.volumes.filter((volume) => volume.clip === true);
     for (let clipVolume of clipVolumes) {
@@ -446,6 +452,5 @@ export class Scene extends EventDispatcher {
 
   removeAnnotation(annotationToRemove) {
     this.annotations.remove(annotationToRemove);
-    console.log('removeAnnotation');
   }
 }

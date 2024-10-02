@@ -24,8 +24,6 @@ export class PointPanel extends MeasurePanel {
     this.elRemove.click(() => {
       this.viewer.scene.removeMeasurement(measurement);
       this.viewer.scene.removeAnnotation(measurement.annotation);
-      console.log('remove meas');
-      console.log(measurement.annotation);
     });
 
     this.propertiesPanel.addVolatileListener(

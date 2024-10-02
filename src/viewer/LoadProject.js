@@ -101,8 +101,6 @@ function loadMeasurement(viewer, data) {
     measure.addMarker(pos);
   }
 
-  console.log(viewer.scene.annotations.children);
-
   if (data.annotationId) {
     const annotation = viewer.scene.annotations.children.find(
       (a) => a.uuid === data.annotationId
