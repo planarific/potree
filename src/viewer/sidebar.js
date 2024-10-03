@@ -704,6 +704,10 @@ export class Sidebar {
       if (object) {
         object.visible = false;
       }
+
+      if (object.annotation) {
+        object.annotation.visible = false;
+      }
     });
 
     tree.on('check_node.jstree', (e, data) => {
@@ -711,6 +715,10 @@ export class Sidebar {
 
       if (object) {
         object.visible = true;
+      }
+
+      if (object.annotation) {
+        object.annotation.visible = true;
       }
     });
 
