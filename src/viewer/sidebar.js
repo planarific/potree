@@ -476,6 +476,12 @@ export class Sidebar {
     });
 
     let createNode = (parent, text, icon, object) => {
+      if (object instanceof Measure) {
+        let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
+        let removeIcon = `<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
+        text = `${text} ${removeIcon}`;
+      }
+
       let nodeID = tree.jstree(
         'create_node',
         parent,
@@ -493,6 +499,14 @@ export class Sidebar {
         tree.jstree('check_node', nodeID);
       } else {
         tree.jstree('uncheck_node', nodeID);
+      }
+
+      if (object instanceof Measure) {
+        $(document).on('click', `#${nodeID} img[name="remove"]`, (e) => {
+          e.stopPropagation();
+          viewer.scene.removeMeasurement(object);
+          viewer.scene.removeAnnotation(object.annotation);
+        });
       }
 
       return nodeID;
