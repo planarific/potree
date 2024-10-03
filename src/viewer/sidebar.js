@@ -609,13 +609,15 @@ export class Sidebar {
         node.boundingBox = box;
         this.viewer.zoomTo(node, 1, 500);
       } else if (object instanceof Measure) {
-        let points = object.points.map((p) => p.position);
-        let box = new THREE.Box3().setFromPoints(points);
-        if (box.getSize(new THREE.Vector3()).length() > 0) {
-          let node = new THREE.Object3D();
-          node.boundingBox = box;
-          this.viewer.zoomTo(node, 2, 500);
-        }
+        // let points = object.points.map((p) => p.position);
+        // let box = new THREE.Box3().setFromPoints(points);
+        // if (box.getSize(new THREE.Vector3()).length() > 0) {
+        //   let node = new THREE.Object3D();
+        //   node.boundingBox = box;
+        //   this.viewer.zoomTo(node, 2, 500);
+        // }
+        object.annotation.moveHere(this.viewer.scene.getActiveCamera());
+        console.log('camera roll!!')
       } else if (object instanceof Profile) {
         let points = object.points;
         let box = new THREE.Box3().setFromPoints(points);
