@@ -48,7 +48,7 @@ export class Sidebar {
     this.initToolbar();
     this.initScene();
     this.initNavigation();
-    this.initFilters();
+    //this.initFilters();
     this.initClippingTool();
     this.initSettings();
 
@@ -60,176 +60,176 @@ export class Sidebar {
   initToolbar() {
     // ANGLE
     let elToolbar = $('#tools');
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/angle.png',
-        '[title]tt.angle_measurement',
-        () => {
-          $('#menu_measurements').next().slideDown();
-          let measurement = this.measuringTool.startInsertion({
-            showDistances: false,
-            showAngles: true,
-            showArea: false,
-            closed: true,
-            maxMarkers: 3,
-            name: 'Angle',
-          });
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/angle.png',
+    //     '[title]tt.angle_measurement',
+    //     () => {
+    //       $('#menu_measurements').next().slideDown();
+    //       let measurement = this.measuringTool.startInsertion({
+    //         showDistances: false,
+    //         showAngles: true,
+    //         showArea: false,
+    //         closed: true,
+    //         maxMarkers: 3,
+    //         name: 'Angle',
+    //       });
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === measurement.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === measurement.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
-    // POINT
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/point.svg',
-        '[title]tt.point_measurement',
-        () => {
-          $('#menu_measurements').next().slideDown();
-          let measurement = this.measuringTool.startInsertion({
-            showDistances: false,
-            showAngles: false,
-            showCoordinates: true,
-            showArea: false,
-            closed: true,
-            maxMarkers: 1,
-            name: 'Point',
-          });
+    // // POINT
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/point.svg',
+    //     '[title]tt.point_measurement',
+    //     () => {
+    //       $('#menu_measurements').next().slideDown();
+    //       let measurement = this.measuringTool.startInsertion({
+    //         showDistances: false,
+    //         showAngles: false,
+    //         showCoordinates: true,
+    //         showArea: false,
+    //         closed: true,
+    //         maxMarkers: 1,
+    //         name: 'Point',
+    //       });
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === measurement.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === measurement.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
-    // DISTANCE
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/distance.svg',
-        '[title]tt.distance_measurement',
-        () => {
-          $('#menu_measurements').next().slideDown();
-          let measurement = this.measuringTool.startInsertion({
-            showDistances: true,
-            showArea: false,
-            closed: false,
-            name: 'Distance',
-          });
+    // // DISTANCE
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/distance.svg',
+    //     '[title]tt.distance_measurement',
+    //     () => {
+    //       $('#menu_measurements').next().slideDown();
+    //       let measurement = this.measuringTool.startInsertion({
+    //         showDistances: true,
+    //         showArea: false,
+    //         closed: false,
+    //         name: 'Distance',
+    //       });
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === measurement.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === measurement.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
-    // HEIGHT
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/height.svg',
-        '[title]tt.height_measurement',
-        () => {
-          $('#menu_measurements').next().slideDown();
-          let measurement = this.measuringTool.startInsertion({
-            showDistances: false,
-            showHeight: true,
-            showArea: false,
-            closed: false,
-            maxMarkers: 2,
-            name: 'Height',
-          });
+    // // HEIGHT
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/height.svg',
+    //     '[title]tt.height_measurement',
+    //     () => {
+    //       $('#menu_measurements').next().slideDown();
+    //       let measurement = this.measuringTool.startInsertion({
+    //         showDistances: false,
+    //         showHeight: true,
+    //         showArea: false,
+    //         closed: false,
+    //         maxMarkers: 2,
+    //         name: 'Height',
+    //       });
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === measurement.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === measurement.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
-    // CIRCLE
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/circle.svg',
-        '[title]tt.circle_measurement',
-        () => {
-          $('#menu_measurements').next().slideDown();
-          let measurement = this.measuringTool.startInsertion({
-            showDistances: false,
-            showHeight: false,
-            showArea: false,
-            showCircle: true,
-            showEdges: false,
-            closed: false,
-            maxMarkers: 3,
-            name: 'Circle',
-          });
+    // // CIRCLE
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/circle.svg',
+    //     '[title]tt.circle_measurement',
+    //     () => {
+    //       $('#menu_measurements').next().slideDown();
+    //       let measurement = this.measuringTool.startInsertion({
+    //         showDistances: false,
+    //         showHeight: false,
+    //         showArea: false,
+    //         showCircle: true,
+    //         showEdges: false,
+    //         closed: false,
+    //         maxMarkers: 3,
+    //         name: 'Circle',
+    //       });
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === measurement.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === measurement.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
-    // AZIMUTH
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/azimuth.svg',
-        'Azimuth',
-        () => {
-          $('#menu_measurements').next().slideDown();
-          let measurement = this.measuringTool.startInsertion({
-            showDistances: false,
-            showHeight: false,
-            showArea: false,
-            showCircle: false,
-            showEdges: false,
-            showAzimuth: true,
-            closed: false,
-            maxMarkers: 2,
-            name: 'Azimuth',
-          });
+    // // AZIMUTH
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/azimuth.svg',
+    //     'Azimuth',
+    //     () => {
+    //       $('#menu_measurements').next().slideDown();
+    //       let measurement = this.measuringTool.startInsertion({
+    //         showDistances: false,
+    //         showHeight: false,
+    //         showArea: false,
+    //         showCircle: false,
+    //         showEdges: false,
+    //         showAzimuth: true,
+    //         closed: false,
+    //         maxMarkers: 2,
+    //         name: 'Azimuth',
+    //       });
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === measurement.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === measurement.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
     // AREA
     elToolbar.append(
@@ -262,86 +262,86 @@ export class Sidebar {
     );
 
     // VOLUME
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/volume.svg',
-        '[title]tt.volume_measurement',
-        () => {
-          let volume = this.volumeTool.startInsertion();
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/volume.svg',
+    //     '[title]tt.volume_measurement',
+    //     () => {
+    //       let volume = this.volumeTool.startInsertion();
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === volume.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === volume.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
-    // SPHERE VOLUME
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/sphere_distances.svg',
-        '[title]tt.volume_measurement',
-        () => {
-          let volume = this.volumeTool.startInsertion({ type: SphereVolume });
+    // // SPHERE VOLUME
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/sphere_distances.svg',
+    //     '[title]tt.volume_measurement',
+    //     () => {
+    //       let volume = this.volumeTool.startInsertion({ type: SphereVolume });
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === volume.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === volume.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
-    // PROFILE
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/profile.svg',
-        '[title]tt.height_profile',
-        () => {
-          $('#menu_measurements').next().slideDown();
-          let profile = this.profileTool.startInsertion();
+    // // PROFILE
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/profile.svg',
+    //     '[title]tt.height_profile',
+    //     () => {
+    //       $('#menu_measurements').next().slideDown();
+    //       let profile = this.profileTool.startInsertion();
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === profile.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let measurementsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('measurements');
+    //       let jsonNode = measurementsRoot.children.find(
+    //         (child) => child.data.uuid === profile.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
-    // ANNOTATION
-    elToolbar.append(
-      this.createToolIcon(
-        Potree.resourcePath + '/icons/annotation.svg',
-        '[title]tt.annotation',
-        () => {
-          $('#menu_measurements').next().slideDown();
-          let annotation = this.viewer.annotationTool.startInsertion();
+    // // ANNOTATION
+    // elToolbar.append(
+    //   this.createToolIcon(
+    //     Potree.resourcePath + '/icons/annotation.svg',
+    //     '[title]tt.annotation',
+    //     () => {
+    //       $('#menu_measurements').next().slideDown();
+    //       let annotation = this.viewer.annotationTool.startInsertion();
 
-          let annotationsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('annotations');
-          let jsonNode = annotationsRoot.children.find(
-            (child) => child.data.uuid === annotation.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
-        }
-      )
-    );
+    //       let annotationsRoot = $('#jstree_scene')
+    //         .jstree()
+    //         .get_json('annotations');
+    //       let jsonNode = annotationsRoot.children.find(
+    //         (child) => child.data.uuid === annotation.uuid
+    //       );
+    //       $.jstree.reference(jsonNode.id).deselect_all();
+    //       $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+    //     }
+    //   )
+    // );
 
     // REMOVE ALL
     elToolbar.append(
@@ -528,45 +528,45 @@ export class Sidebar {
       false,
       false
     );
-    let annotationsID = tree.jstree(
-      'create_node',
-      '#',
-      { text: '<b>Annotations</b>', id: 'annotations' },
-      'last',
-      false,
-      false
-    );
-    let otherID = tree.jstree(
-      'create_node',
-      '#',
-      { text: '<b>Other</b>', id: 'other' },
-      'last',
-      false,
-      false
-    );
-    let vectorsID = tree.jstree(
-      'create_node',
-      '#',
-      { text: '<b>Vectors</b>', id: 'vectors' },
-      'last',
-      false,
-      false
-    );
-    let imagesID = tree.jstree(
-      'create_node',
-      '#',
-      { text: '<b> Images</b>', id: 'images' },
-      'last',
-      false,
-      false
-    );
+    // let annotationsID = tree.jstree(
+    //   'create_node',
+    //   '#',
+    //   { text: '<b>Annotations</b>', id: 'annotations' },
+    //   'last',
+    //   false,
+    //   false
+    // );
+    // let otherID = tree.jstree(
+    //   'create_node',
+    //   '#',
+    //   { text: '<b>Other</b>', id: 'other' },
+    //   'last',
+    //   false,
+    //   false
+    // );
+    // let vectorsID = tree.jstree(
+    //   'create_node',
+    //   '#',
+    //   { text: '<b>Vectors</b>', id: 'vectors' },
+    //   'last',
+    //   false,
+    //   false
+    // );
+    // let imagesID = tree.jstree(
+    //   'create_node',
+    //   '#',
+    //   { text: '<b> Images</b>', id: 'images' },
+    //   'last',
+    //   false,
+    //   false
+    // );
 
     tree.jstree('check_node', pcID);
     tree.jstree('check_node', measurementID);
-    tree.jstree('check_node', annotationsID);
-    tree.jstree('check_node', otherID);
-    tree.jstree('check_node', vectorsID);
-    tree.jstree('check_node', imagesID);
+    // tree.jstree('check_node', annotationsID);
+    //tree.jstree('check_node', otherID);
+    //tree.jstree('check_node', vectorsID);
+    //tree.jstree('check_node', imagesID);
 
     tree.on('create_node.jstree', (e, data) => {
       tree.jstree('open_all');
@@ -770,40 +770,40 @@ export class Sidebar {
     };
 
     let onCameraAnimationAdded = (e) => {
-      const animation = e.animation;
+      // const animation = e.animation;
 
-      const animationIcon = `${Potree.resourcePath}/icons/camera_animation.svg`;
-      createNode(otherID, 'animation', animationIcon, animation);
+      // const animationIcon = `${Potree.resourcePath}/icons/camera_animation.svg`;
+      // createNode(otherID, 'animation', animationIcon, animation);
     };
 
     let onOrientedImagesAdded = (e) => {
-      const images = e.images;
+      // const images = e.images;
 
-      const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
-      const node = createNode(imagesID, 'images', imagesIcon, images);
+      // const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
+      // const node = createNode(imagesID, 'images', imagesIcon, images);
 
-      images.addEventListener('visibility_changed', () => {
-        if (images.visible) {
-          tree.jstree('check_node', node);
-        } else {
-          tree.jstree('uncheck_node', node);
-        }
-      });
+      // images.addEventListener('visibility_changed', () => {
+      //   if (images.visible) {
+      //     tree.jstree('check_node', node);
+      //   } else {
+      //     tree.jstree('uncheck_node', node);
+      //   }
+      // });
     };
 
     let onImages360Added = (e) => {
-      const images = e.images;
+      // const images = e.images;
 
-      const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
-      const node = createNode(imagesID, '360° images', imagesIcon, images);
+      // const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
+      // const node = createNode(imagesID, '360° images', imagesIcon, images);
 
-      images.addEventListener('visibility_changed', () => {
-        if (images.visible) {
-          tree.jstree('check_node', node);
-        } else {
-          tree.jstree('uncheck_node', node);
-        }
-      });
+      // images.addEventListener('visibility_changed', () => {
+      //   if (images.visible) {
+      //     tree.jstree('check_node', node);
+      //   } else {
+      //     tree.jstree('uncheck_node', node);
+      //   }
+      // });
     };
 
     const onGeopackageAdded = (e) => {
@@ -911,21 +911,21 @@ export class Sidebar {
     );
     this.viewer.scene.addEventListener('profile_removed', onProfileRemoved);
 
-    {
-      let annotationIcon = `${Potree.resourcePath}/icons/annotation.svg`;
-      this.annotationMapping = new Map();
-      this.annotationMapping.set(this.viewer.scene.annotations, annotationsID);
-      this.viewer.scene.annotations.traverseDescendants((annotation) => {
-        let parentID = this.annotationMapping.get(annotation.parent);
-        let annotationID = createNode(
-          parentID,
-          annotation.title,
-          annotationIcon,
-          annotation
-        );
-        this.annotationMapping.set(annotation, annotationID);
-      });
-    }
+    // {
+    //   let annotationIcon = `${Potree.resourcePath}/icons/annotation.svg`;
+    //   this.annotationMapping = new Map();
+    //   this.annotationMapping.set(this.viewer.scene.annotations, annotationsID);
+    //   this.viewer.scene.annotations.traverseDescendants((annotation) => {
+    //     let parentID = this.annotationMapping.get(annotation.parent);
+    //     let annotationID = createNode(
+    //       parentID,
+    //       annotation.title,
+    //       annotationIcon,
+    //       annotation
+    //     );
+    //     this.annotationMapping.set(annotation, annotationID);
+    //   });
+    // }
 
     const scene = this.viewer.scene;
     for (let pointcloud of scene.pointclouds) {
@@ -960,9 +960,9 @@ export class Sidebar {
       onProfileAdded({ profile: profile });
     }
 
-    {
-      createNode(otherID, 'Camera', null, new THREE.Camera());
-    }
+    // {
+    //   createNode(otherID, 'Camera', null, new THREE.Camera());
+    // }
 
     this.viewer.addEventListener('scene_changed', (e) => {
       propertiesPanel.setScene(e.scene);
