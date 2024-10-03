@@ -258,7 +258,6 @@ export class Measure extends THREE.Object3D {
     this._showDistances = true;
     this._showCoordinates = false;
     this._showArea = false;
-    this._isArea = false;
     this._closed = true;
     this._showAngles = false;
     this._showCircle = false;

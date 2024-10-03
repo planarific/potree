@@ -243,8 +243,8 @@ export class Sidebar {
             measurementName = 'Area'; // Default to "Area" if no input is given
           }
           let measurement = this.measuringTool.startInsertion({
-            showDistances: false,
-            showArea: false,
+            showDistances: true,
+            showArea: true,
             closed: true,
             name: measurementName,
           });
@@ -384,8 +384,8 @@ export class Sidebar {
 
       elExport.append(`
 				Export: <br>
-				<a href="#" download="measure.json"><img name="geojson_export_button" src="${geoJSONIcon}" class="button-icon" style="height: 24px" /></a>
-				<a href="#" download="measure.dxf"><img name="dxf_export_button" src="${dxfIcon}" class="button-icon" style="height: 24px" /></a>
+				<!--a href="#" download="measure.json"><img name="geojson_export_button" src="${geoJSONIcon}" class="button-icon" style="height: 24px" /></!a>
+				<a-- href="#" download="measure.dxf"><img name="dxf_export_button" src="${dxfIcon}" class="button-icon" style="height: 24px" /></a-->
 				<a href="#" download="potree.json5"><img name="potree_export_button" src="${potreeIcon}" class="button-icon" style="height: 24px" /></a>
 			`);
 
@@ -617,7 +617,7 @@ export class Sidebar {
         //   this.viewer.zoomTo(node, 2, 500);
         // }
         object.annotation.moveHere(this.viewer.scene.getActiveCamera());
-        console.log('camera roll!!')
+        console.log('camera roll!!');
       } else if (object instanceof Profile) {
         let points = object.points;
         let box = new THREE.Box3().setFromPoints(points);
