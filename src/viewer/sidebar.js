@@ -458,7 +458,7 @@ export class Sidebar {
     elObjects.append(tree);
 
     tree.jstree({
-      plugins: ['checkbox', 'state'],
+      plugins: ['checkbox', 'state', 'dnd'],
       core: {
         dblclick_toggle: false,
         state: {
@@ -466,6 +466,7 @@ export class Sidebar {
         },
         check_callback: true,
         expand_selected_onload: true,
+        multiple: false,
       },
       checkbox: {
         keep_selected_style: true,
@@ -473,6 +474,18 @@ export class Sidebar {
         whole_node: false,
         tie_selection: false,
       },
+      dnd: {
+        inside_pos: 'last', // You can control where dropped nodes are placed ('last', 'first', etc.)
+        use_html5: true, // Use HTML5 drag-and-drop API
+      },
+    });
+
+    console.log('reached here');
+
+    tree.on('move_node.jstree', function (e, data) {
+      console.log('Moved node:', data.node);
+      console.log('New parent:', data.parent);
+      console.log('New position:', data.position);
     });
 
     let createNode = (parent, text, icon, object) => {
@@ -771,17 +784,14 @@ export class Sidebar {
 
     let onCameraAnimationAdded = (e) => {
       // const animation = e.animation;
-
       // const animationIcon = `${Potree.resourcePath}/icons/camera_animation.svg`;
       // createNode(otherID, 'animation', animationIcon, animation);
     };
 
     let onOrientedImagesAdded = (e) => {
       // const images = e.images;
-
       // const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
       // const node = createNode(imagesID, 'images', imagesIcon, images);
-
       // images.addEventListener('visibility_changed', () => {
       //   if (images.visible) {
       //     tree.jstree('check_node', node);
@@ -793,10 +803,8 @@ export class Sidebar {
 
     let onImages360Added = (e) => {
       // const images = e.images;
-
       // const imagesIcon = `${Potree.resourcePath}/icons/picture.svg`;
       // const node = createNode(imagesID, '360° images', imagesIcon, images);
-
       // images.addEventListener('visibility_changed', () => {
       //   if (images.visible) {
       //     tree.jstree('check_node', node);
