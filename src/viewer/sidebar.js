@@ -7,6 +7,7 @@ import { PropertiesPanel } from './PropertyPanels/PropertiesPanel.js';
 import { PointCloudTree } from '../PointCloudTree.js';
 import { Profile } from '../utils/Profile.js';
 import { Measure } from '../utils/Measure.js';
+import { Folder } from '../utils/Folder.js';
 import { Annotation } from '../Annotation.js';
 import { CameraMode, ClipTask, ClipMethod } from '../defines.js';
 import { ScreenBoxSelectTool } from '../utils/ScreenBoxSelectTool.js';
@@ -254,6 +255,45 @@ export class Sidebar {
             .get_json('measurements');
           let jsonNode = measurementsRoot.children.find(
             (child) => child.data.uuid === measurement.uuid
+          );
+          $.jstree.reference(jsonNode.id).deselect_all();
+          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+        }
+      )
+    );
+
+    // FOLDER
+    elToolbar.append(
+      this.createToolIcon(
+        Potree.resourcePath + '/icons/folder.png',
+        'Folder',
+        () => {
+          $('#menu_measurements').next().slideDown();
+          let folderName = prompt('Enter a name for the measurement:');
+          if (!folderName) {
+            folderName = 'Folder'; // Default to "Area" if no input is given
+          }
+
+          let folder = new Measure();
+          let folder2 = new Folder();
+          folder.name = folderName;
+
+          this.viewer.scene.dispatchEvent({
+            type: 'measurement_added',
+            scene: this.viewer.scene,
+            measurement: folder,
+          });
+
+          console.log(folder);
+          console.log(folder.uuid);
+          console.log(folder2);
+          console.log(folder2.uuid);
+
+          let measurementsRoot = $('#jstree_scene')
+            .jstree()
+            .get_json('measurements');
+          let jsonNode = measurementsRoot.children.find(
+            (child) => child.data.uuid === folder.uuid
           );
           $.jstree.reference(jsonNode.id).deselect_all();
           $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
@@ -742,6 +782,12 @@ export class Sidebar {
       createNode(measurementID, measurement.name, icon, measurement);
     };
 
+    let onFolderAdded = (e) => {
+      let folder = e.folder;
+      let icon = Utils.getMeasurementIcon(folder);
+      createNode(measurementID, folder.name, icon, folder);
+    };
+
     let onVolumeAdded = (e) => {
       let volume = e.volume;
       let icon = Utils.getMeasurementIcon(volume);
@@ -998,6 +1044,7 @@ export class Sidebar {
 
       e.scene.addEventListener('pointcloud_added', onPointCloudAdded);
       e.scene.addEventListener('measurement_added', onMeasurementAdded);
+      e.scene.addEventListener('folder_added', onFolderAdded);
       e.scene.addEventListener('profile_added', onProfileAdded);
       e.scene.addEventListener('volume_added', onVolumeAdded);
       e.scene.addEventListener('polygon_clip_volume_added', onVolumeAdded);
