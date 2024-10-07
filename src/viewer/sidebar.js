@@ -274,20 +274,14 @@ export class Sidebar {
             folderName = 'Folder'; // Default to "Area" if no input is given
           }
 
-          let folder = new Measure();
-          let folder2 = new Folder();
+          let folder = new Folder();
           folder.name = folderName;
 
           this.viewer.scene.dispatchEvent({
-            type: 'measurement_added',
+            type: 'folder_added',
             scene: this.viewer.scene,
             measurement: folder,
           });
-
-          console.log(folder);
-          console.log(folder.uuid);
-          console.log(folder2);
-          console.log(folder2.uuid);
 
           let measurementsRoot = $('#jstree_scene')
             .jstree()
@@ -897,6 +891,7 @@ export class Sidebar {
 
     this.viewer.scene.addEventListener('pointcloud_added', onPointCloudAdded);
     this.viewer.scene.addEventListener('measurement_added', onMeasurementAdded);
+    this.viewer.scene.addEventListener('folder_added', onFolderAdded);
     this.viewer.scene.addEventListener('profile_added', onProfileAdded);
     this.viewer.scene.addEventListener('volume_added', onVolumeAdded);
     this.viewer.scene.addEventListener(
