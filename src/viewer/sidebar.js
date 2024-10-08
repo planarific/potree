@@ -528,16 +528,16 @@ export class Sidebar {
       if (object instanceof Measure) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
-        let removeIcon = `<img name="m-remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
-        let renameIcon = `<img name="m-rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
+        let removeIcon = `<img uuid="${object.uuid}" name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
+        let renameIcon = `<img uuid="${object.uuid}" name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
         text = `${text} ${removeIcon} ${renameIcon}`;
       }
 
       if (object instanceof Folder) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
-        let removeIcon = `<img name="f-remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
-        let renameIcon = `<img name="f-rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
+        let removeIcon = `<img uuid="${object.uuid}" name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
+        let renameIcon = `<img uuid="${object.uuid}" name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
         text = `${text} ${removeIcon} ${renameIcon}`;
       }
 
@@ -573,47 +573,59 @@ export class Sidebar {
       };
 
       if (object instanceof Folder) {
-        $(document).on('click', `#${nodeID} img[name="f-rename"]`, (e) => {
-          e.stopPropagation();
-          console.log('f-rename');
-          const node = tree.jstree(true).get_node(nodeID);
-          const oldName = node.text.split('<')[0].trim();
-          const buttons = node.text.replace(oldName, '').trim();
-          const newName = prompt('Enter a new name:', oldName).trim();
-          if (newName) {
-            tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
+        $(document).on(
+          'click',
+          `img[name="rename"][uuid="${object.uuid}"]`,
+          (e) => {
+            e.stopPropagation();
+            const node = tree.jstree(true).get_node(nodeID);
+            const oldName = node.text.split('<')[0].trim();
+            const buttons = node.text.replace(oldName, '').trim();
+            const newName = prompt('Enter a new name:', oldName).trim();
+            if (newName) {
+              tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
+            }
           }
-        });
+        );
 
-        $(document).on('click', `#${nodeID} img[name="f-remove"]`, (e) => {
-          e.stopPropagation();
-          console.log('f-remove');
-          const node = tree.jstree(true).get_node(nodeID);
-          removeRecursively(node);
-          tree.jstree('delete_node', nodeID);
-        });
+        $(document).on(
+          'click',
+          `img[name="remove"][uuid="${object.uuid}"]`,
+          (e) => {
+            e.stopPropagation();
+            const node = tree.jstree(true).get_node(nodeID);
+            removeRecursively(node);
+            tree.jstree('delete_node', nodeID);
+          }
+        );
       }
 
       if (object instanceof Measure) {
-        $(document).on('click', `#${nodeID} img[name="m-rename"]`, (e) => {
-          e.stopPropagation();
-          console.log('m-rename');
-          const node = tree.jstree(true).get_node(nodeID);
-          const oldName = node.text.split('<')[0].trim();
-          const buttons = node.text.replace(oldName, '').trim();
-          const newName = prompt('Enter a new name:', oldName).trim();
-          if (newName) {
-            tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
+        $(document).on(
+          'click',
+          `img[name="rename"][uuid="${object.uuid}"]`,
+          (e) => {
+            e.stopPropagation();
+            const node = tree.jstree(true).get_node(nodeID);
+            const oldName = node.text.split('<')[0].trim();
+            const buttons = node.text.replace(oldName, '').trim();
+            const newName = prompt('Enter a new name:', oldName).trim();
+            if (newName) {
+              tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
+            }
+            let object = node.data;
+            object.annotation.title = newName;
           }
-          let object = node.data;
-          object.annotation.title = newName;
-        });
-        $(document).on('click', `#${nodeID} img[name="m-remove"]`, (e) => {
-          e.stopPropagation();
-          console.log('m-remove');
-          viewer.scene.removeMeasurement(object);
-          viewer.scene.removeAnnotation(object.annotation);
-        });
+        );
+        $(document).on(
+          'click',
+          `img[name="remove"][uuid="${object.uuid}"]`,
+          (e) => {
+            e.stopPropagation();
+            viewer.scene.removeMeasurement(object);
+            viewer.scene.removeAnnotation(object.annotation);
+          }
+        );
       }
 
       return nodeID;
