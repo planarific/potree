@@ -240,7 +240,7 @@ export class Sidebar {
         () => {
           console.log('area.svg');
           $('#menu_measurements').next().slideDown();
-          let measurementName = prompt('Enter a name for the measurement:');
+          let measurementName = prompt('Enter a name for the area:', 'Area');
           if (!measurementName) {
             measurementName = 'Area'; // Default to "Area" if no input is given
           }
@@ -270,7 +270,7 @@ export class Sidebar {
         'Folder',
         () => {
           $('#menu_measurements').next().slideDown();
-          let folderName = prompt('Enter a name for the measurement:');
+          let folderName = prompt('Enter a name for the folder:', 'Folder');
           if (!folderName) {
             folderName = 'Folder'; // Default to "Area" if no input is given
           }
@@ -524,10 +524,12 @@ export class Sidebar {
     });
 
     let createNode = (parent, text, icon, object) => {
-      if (object instanceof Measure) {
+      if (object instanceof Measure || object instanceof Folder) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
+        let renameIconPath = Potree.resourcePath + '/icons/rename.png';
         let removeIcon = `<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
-        text = `${text} ${removeIcon}`;
+        let renameIcon = `<img name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
+        text = `${text} ${removeIcon} ${renameIcon}`;
       }
 
       let nodeID = tree.jstree(
@@ -549,13 +551,30 @@ export class Sidebar {
         tree.jstree('uncheck_node', nodeID);
       }
 
-      if (object instanceof Measure) {
-        $(document).on('click', `#${nodeID} img[name="remove"]`, (e) => {
-          e.stopPropagation();
+      $(document).on('click', `#${nodeID} img[name="remove"]`, (e) => {
+        e.stopPropagation();
+        if (object instanceof Measure) {
           viewer.scene.removeMeasurement(object);
           viewer.scene.removeAnnotation(object.annotation);
-        });
-      }
+        } else if (object instanceof Folder) {
+          tree.jstree('delete_node', nodeID);
+        }
+      });
+
+      $(document).on('click', `#${nodeID} img[name="rename"]`, (e) => {
+        const node = tree.jstree(true).get_node(nodeID);
+        const oldName = node.text.split('<')[0].trim();
+        const buttons = node.text.replace(oldName, '').trim();
+        const newName = prompt('Enter a new name:', oldName).trim();
+        if (newName) {
+          tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
+        }
+
+        let object = node.data;
+        if (object instanceof Measure) {
+          object.annotation.title = newName;
+        }
+      });
 
       return nodeID;
     };
