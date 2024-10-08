@@ -238,6 +238,7 @@ export class Sidebar {
         Potree.resourcePath + '/icons/area.svg',
         '[title]tt.area_measurement',
         () => {
+          console.log('area.svg');
           $('#menu_measurements').next().slideDown();
           let measurementName = prompt('Enter a name for the measurement:');
           if (!measurementName) {
@@ -280,7 +281,7 @@ export class Sidebar {
           this.viewer.scene.dispatchEvent({
             type: 'folder_added',
             scene: this.viewer.scene,
-            measurement: folder,
+            folder: folder,
           });
 
           let measurementsRoot = $('#jstree_scene')
