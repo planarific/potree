@@ -240,7 +240,7 @@ export class Sidebar {
         () => {
           console.log('area.svg');
           $('#menu_measurements').next().slideDown();
-          let measurementName = prompt('Enter a name for the area:', 'Area');
+          let measurementName = prompt('Enter a measurement name:', 'Area');
           if (!measurementName) {
             measurementName = 'Area'; // Default to "Area" if no input is given
           }
@@ -270,7 +270,7 @@ export class Sidebar {
         'Folder',
         () => {
           $('#menu_measurements').next().slideDown();
-          let folderName = prompt('Enter a name for the folder:', 'Folder');
+          let folderName = prompt('Enter a folder name:', 'Folder');
           if (!folderName) {
             folderName = 'Folder'; // Default to "Area" if no input is given
           }
@@ -581,7 +581,7 @@ export class Sidebar {
             const node = tree.jstree(true).get_node(nodeID);
             const oldName = node.text.split('<')[0].trim();
             const buttons = node.text.replace(oldName, '').trim();
-            const newName = prompt('Enter a new name:', oldName).trim();
+            const newName = prompt('Enter a new folder name:', oldName).trim();
             if (newName) {
               tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
             }
@@ -609,7 +609,7 @@ export class Sidebar {
             const node = tree.jstree(true).get_node(nodeID);
             const oldName = node.text.split('<')[0].trim();
             const buttons = node.text.replace(oldName, '').trim();
-            const newName = prompt('Enter a new name:', oldName).trim();
+            const newName = prompt('Enter a new measurement name:', oldName).trim();
             if (newName) {
               tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
             }
