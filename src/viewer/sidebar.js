@@ -524,13 +524,14 @@ export class Sidebar {
     });
 
     let createNode = (parent, text, icon, object) => {
-      console.log(object);
       if (object instanceof Measure) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
+        let copyIconPath = Potree.resourcePath + '/icons/copy.png';
         let removeIcon = `<img uuid="${object.uuid}" name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
         let renameIcon = `<img uuid="${object.uuid}" name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
-        text = `${text} ${removeIcon} ${renameIcon}`;
+        let copyIcon = `<img uuid="${object.uuid}" name="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>`;
+        text = `${text} ${renameIcon} ${copyIcon} ${removeIcon}`;
       }
 
       if (object instanceof Folder) {
@@ -538,7 +539,7 @@ export class Sidebar {
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
         let removeIcon = `<img uuid="${object.uuid}" name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
         let renameIcon = `<img uuid="${object.uuid}" name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
-        text = `${text} ${removeIcon} ${renameIcon}`;
+        text = `${text} ${renameIcon} ${removeIcon}`;
       }
 
       let nodeID = tree.jstree(
@@ -560,7 +561,7 @@ export class Sidebar {
         tree.jstree('uncheck_node', nodeID);
       }
 
-      const removeRecursively = (node) => {
+      const removeNodesRecursively = (node) => {
         for (let childId of node.children) {
           const childNode = tree.jstree(true).get_node(childId);
           const object = childNode.data;
@@ -594,7 +595,7 @@ export class Sidebar {
           (e) => {
             e.stopPropagation();
             const node = tree.jstree(true).get_node(nodeID);
-            removeRecursively(node);
+            removeNodesRecursively(node);
             tree.jstree('delete_node', nodeID);
           }
         );
@@ -627,6 +628,45 @@ export class Sidebar {
             e.stopPropagation();
             viewer.scene.removeMeasurement(object);
             viewer.scene.removeAnnotation(object.annotation);
+          }
+        );
+        $(document).on(
+          'click',
+          `img[name="copy"][uuid="${object.uuid}"]`,
+          (e) => {
+            e.stopPropagation();
+
+            const node = tree.jstree(true).get_node(nodeID);
+            const oldName = node.text.split('<')[0].trim();
+            const buttons = node.text.replace(oldName, '').trim();
+            const newName = prompt(
+              'Enter a new measurement name:',
+              oldName
+            ).trim();
+
+            // const clonedNodeData = $.extend(true, {}, originalNode.data);
+            // console.log(originalNode);
+
+            // Create a new node right after the original node
+            const newNodeID = tree.jstree(true).create_node(
+              node,
+              {
+                text: `${newName} ${buttons}`,
+                icon: node.icon,
+                data: node.data, // Clone the original node's data
+              },
+              'after'
+            );
+
+            let object = node.data;
+            object.annotation.title = newName;
+
+            // Optionally, duplicate the measurement in the 3D scene
+            // if (clonedNodeData && clonedNodeData.measurement) {
+            //   duplicateMeasurement(clonedNodeData.measurement);
+            // }
+
+            console.log('Node duplicated:', newNodeID);
           }
         );
       }
