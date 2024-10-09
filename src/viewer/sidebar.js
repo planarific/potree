@@ -609,7 +609,10 @@ export class Sidebar {
             const node = tree.jstree(true).get_node(nodeID);
             const oldName = node.text.split('<')[0].trim();
             const buttons = node.text.replace(oldName, '').trim();
-            const newName = prompt('Enter a new measurement name:', oldName).trim();
+            const newName = prompt(
+              'Enter a new measurement name:',
+              oldName
+            ).trim();
             if (newName) {
               tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
             }
@@ -814,6 +817,8 @@ export class Sidebar {
       if (object.annotation) {
         object.annotation.visible = false;
       }
+
+      if (object instanceof Folder) recursiveUncheckNode(data.node.id, false);
     });
 
     tree.on('check_node.jstree', (e, data) => {
@@ -826,7 +831,31 @@ export class Sidebar {
       if (object.annotation) {
         object.annotation.visible = true;
       }
+
+      if (object instanceof Folder) recursiveUncheckNode(data.node.id, true);
     });
+
+    const recursiveUncheckNode = (nodeID, trueOrFalse) => {
+      const children = tree.jstree(true).get_node(nodeID).children;
+
+      for (const childID of children) {
+        const childNode = tree.jstree(true).get_node(childID);
+
+        if (trueOrFalse) tree.jstree(true).check_node(childID);
+        else tree.jstree(true).uncheck_node(childID);
+
+        if (childNode.data) {
+          childNode.data.visible = trueOrFalse;
+        }
+
+        if (childNode.data && childNode.data.annotation) {
+          childNode.data.annotation.visible = trueOrFalse;
+        }
+
+        if (childNode instanceof Folder)
+          recursiveUncheckNode(childNode, trueOrFalse);
+      }
+    };
 
     let onPointCloudAdded = (e) => {
       let pointcloud = e.pointcloud;
