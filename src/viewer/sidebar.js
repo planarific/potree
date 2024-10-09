@@ -529,17 +529,17 @@ export class Sidebar {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
         let copyIconPath = Potree.resourcePath + '/icons/copy.png';
-        let removeIcon = `<img uuid="${object.uuid}" name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
-        let renameIcon = `<img uuid="${object.uuid}" name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
-        let copyIcon = `<img uuid="${object.uuid}" name="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>`;
+        let removeIcon = `<img nodeID name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
+        let renameIcon = `<img nodeID name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
+        let copyIcon = `<img nodeID name="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>`;
         text = `${text} ${renameIcon} ${copyIcon} ${removeIcon}`;
       }
 
       if (object instanceof Folder) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
-        let removeIcon = `<img uuid="${object.uuid}" name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
-        let renameIcon = `<img uuid="${object.uuid}" name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
+        let removeIcon = `<img nodeID name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
+        let renameIcon = `<img nodeID name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
         text = `${text} ${renameIcon} ${removeIcon}`;
       }
 
@@ -555,6 +555,10 @@ export class Sidebar {
         false,
         false
       );
+      
+      const newText = text.replaceAll("nodeID",`nodeID="${nodeID}"`)
+      console.log(newText);
+      tree.jstree(true).rename_node(nodeID, newText);
 
       object.nodeID = nodeID;
 
@@ -579,7 +583,7 @@ export class Sidebar {
       if (object instanceof Folder) {
         $(document).on(
           'click',
-          `img[name="rename"][uuid="${object.uuid}"]`,
+          `img[name="rename"][nodeID="${nodeID}"]`,
           (e) => {
             e.stopPropagation();
             const node = tree.jstree(true).get_node(nodeID);
@@ -594,7 +598,7 @@ export class Sidebar {
 
         $(document).on(
           'click',
-          `img[name="remove"][uuid="${object.uuid}"]`,
+          `img[name="remove"][nodeID="${nodeID}"]`,
           (e) => {
             e.stopPropagation();
             const node = tree.jstree(true).get_node(nodeID);
@@ -607,7 +611,7 @@ export class Sidebar {
       if (object instanceof Measure) {
         $(document).on(
           'click',
-          `img[name="rename"][uuid="${object.uuid}"]`,
+          `img[name="rename"][nodeID="${nodeID}"]`,
           (e) => {
             e.stopPropagation();
             const node = tree.jstree(true).get_node(nodeID);
@@ -626,7 +630,7 @@ export class Sidebar {
         );
         $(document).on(
           'click',
-          `img[name="remove"][uuid="${object.uuid}"]`,
+          `img[name="remove"][nodeID="${nodeID}"]`,
           (e) => {
             e.stopPropagation();
             viewer.scene.removeMeasurement(object);
@@ -635,7 +639,7 @@ export class Sidebar {
         );
         $(document).on(
           'click',
-          `img[name="copy"][uuid="${object.uuid}"]`,
+          `img[name="copy"][nodeID="${nodeID}"]`,
           (e) => {
             e.stopPropagation();
 
