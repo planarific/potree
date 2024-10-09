@@ -16,6 +16,7 @@ import { CameraAnimation } from '../modules/CameraAnimation/CameraAnimation.js';
 import { HierarchicalSlider } from './HierarchicalSlider.js';
 import { OrientedImage } from '../modules/OrientedImages/OrientedImages.js';
 import { Images360 } from '../modules/Images360/Images360.js';
+import { generateUUID } from '../utils/generateUUID.js';
 
 import JSON5 from '../../libs/json5-2.1.3/json5.mjs';
 
@@ -523,7 +524,7 @@ export class Sidebar {
       console.log('New position:', data.position);
     });
 
-    let createNode = (parent, text, icon, object) => {
+    let createNode = (parent, text, icon, object, position = 'last') => {
       if (object instanceof Measure) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
@@ -550,10 +551,12 @@ export class Sidebar {
           icon: icon,
           data: object,
         },
-        'last',
+        position,
         false,
         false
       );
+
+      object.nodeID = nodeID;
 
       if (object.visible) {
         tree.jstree('check_node', nodeID);
@@ -638,35 +641,33 @@ export class Sidebar {
 
             const node = tree.jstree(true).get_node(nodeID);
             const oldName = node.text.split('<')[0].trim();
-            const buttons = node.text.replace(oldName, '').trim();
             const newName = prompt(
-              'Enter a new measurement name:',
+              'Enter a name for the duplicate:',
               oldName
             ).trim();
 
-            // const clonedNodeData = $.extend(true, {}, originalNode.data);
-            // console.log(originalNode);
+            const newAnnotation = new Potree.Annotation({
+              title: newName,
+              position: node.data.annotation.position,
+              cameraPosition: node.data.annotation.cameraPosition,
+              cameraTarget: node.data.annotation.position,
+            });
 
-            // Create a new node right after the original node
-            const newNodeID = tree.jstree(true).create_node(
-              node,
-              {
-                text: `${newName} ${buttons}`,
-                icon: node.icon,
-                data: node.data, // Clone the original node's data
-              },
-              'after'
-            );
+            const newObject = node.data.clone();
+            newObject.name = newName;
+            newObject.uuid = generateUUID();
+            newObject.annotation = newAnnotation;
 
-            let object = node.data;
-            object.annotation.title = newName;
+            viewer.scene.addMeasurement(newObject);
+            viewer.scene.annotations.add(newAnnotation);
 
-            // Optionally, duplicate the measurement in the 3D scene
-            // if (clonedNodeData && clonedNodeData.measurement) {
-            //   duplicateMeasurement(clonedNodeData.measurement);
-            // }
-
-            console.log('Node duplicated:', newNodeID);
+            // const newNodeID = createNode(
+            //   node,
+            //   newText,
+            //   node.icon,
+            //   newObject,
+            //   'after'
+            // );
           }
         );
       }
@@ -1055,33 +1056,7 @@ export class Sidebar {
     );
 
     let onMeasurementRemoved = (e) => {
-      let measurementsRoot = $('#jstree_scene')
-        .jstree()
-        .get_json('measurements');
-
-      let nodeToFind = e.measurement.uuid;
-      const foundNode = findNode(measurementsRoot, nodeToFind);
-      // let jsonNode = measurementsRoot.children.find(
-      //   (child) => child.data.uuid === e.measurement.uuid
-      // );
-      tree.jstree('delete_node', foundNode.id);
-    };
-
-    const findNode = (node, uuid) => {
-      if (node.data && node.data.uuid === uuid) {
-        return node;
-      }
-
-      if (node.children && node.children.length > 0) {
-        for (let child of node.children) {
-          let result = findNode(child, uuid);
-          if (result) {
-            return result;
-          }
-        }
-      }
-
-      return null;
+      tree.jstree('delete_node', e.measurement.nodeID);
     };
 
     let onVolumeRemoved = (e) => {

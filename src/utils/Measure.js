@@ -254,6 +254,7 @@ export class Measure extends THREE.Object3D {
 
     this.name = 'Measure_' + this.constructor.counter;
     this._annotation = null;
+    this._nodeID = null;
     this.points = [];
     this._showDistances = true;
     this._showCoordinates = false;
@@ -963,5 +964,13 @@ export class Measure extends THREE.Object3D {
 
   set annotation(annotation) {
     this._annotation = annotation;
+  }
+
+  get nodeID() {
+    return this._nodeID;
+  }
+
+  set nodeID(nodeID) {
+    this._nodeID = nodeID;
   }
 }
