@@ -84,6 +84,7 @@ function loadMeasurement(viewer, data) {
   const measure = new Measure();
 
   measure.uuid = data.uuid;
+  measure.nodeID = data.nodeID;
   measure.name = data.name;
   measure.showDistances = data.showDistances;
   measure.showCoordinates = data.showCoordinates;

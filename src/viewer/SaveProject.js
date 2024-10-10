@@ -1,3 +1,6 @@
+import { Folder } from '../utils/Folder.js';
+import { Measure } from '../utils/Measure.js';
+
 function createPointcloudData(pointcloud) {
   let material = pointcloud.material;
 
@@ -102,6 +105,7 @@ function createMeasurementData(measurement) {
   const data = {
     uuid: measurement.uuid,
     name: measurement.name,
+    nodeID: measurement.nodeID,
     annotationId: measurement.annotation ? measurement.annotation.uuid : null,
     points: measurement.points.map((p) => p.position.toArray()),
     showDistances: measurement.showDistances,
@@ -238,8 +242,13 @@ function createClassificationData(viewer) {
   return data;
 }
 
-export function saveProject(viewer) {
+export function saveProject(viewer, tree) {
   const scene = viewer.scene;
+
+  const treeData = tree.jstree(true).get_json('#', { flat: false })[1].children;
+  console.log(treeData);
+  const processedTreeData = processTreeData('measurements', treeData);
+  console.log(processedTreeData);
 
   const data = {
     type: 'Potree',
@@ -255,8 +264,25 @@ export function saveProject(viewer) {
     annotations: createAnnotationsData(viewer),
     orientedImages: scene.orientedImages.map(createOrientedImagesData),
     geopackages: scene.geopackages.map(createGeopackageData),
+    treeData: processedTreeData,
     // objects: createSceneContentData(viewer),
   };
 
   return data;
 }
+
+const processTreeData = (parentID, treeData) => {
+  const processedTreeData = [];
+  for (const child of treeData) {
+    const processedChild = {
+      parent: parentID,
+      text: child.text.split('<')[0].trim(),
+      icon: child.icon,
+      objectUUID: child.data.uuid,
+    };
+    if (child.data.instanceOf === 'Folder')
+      processedChild.children = processTreeData(child.id, child.children);
+    processedTreeData.push(processedChild);
+  }
+  return processedTreeData;
+};

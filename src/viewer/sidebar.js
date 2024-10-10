@@ -410,6 +410,8 @@ export class Sidebar {
     let elScene = $('#menu_scene');
     let elObjects = elScene.next().find('#scene_objects');
     let elProperties = elScene.next().find('#scene_object_properties');
+    let tree = $(`<div id="jstree_scene"></div>`);
+    elObjects.append(tree);
 
     {
       let elExport = elScene.next().find('#scene_export');
@@ -420,9 +422,10 @@ export class Sidebar {
 
       elExport.append(`
 				Export: <br>
-				<!--a href="#" download="measure.json"><img name="geojson_export_button" src="${geoJSONIcon}" class="button-icon" style="height: 24px" /></!a>
-				<a-- href="#" download="measure.dxf"><img name="dxf_export_button" src="${dxfIcon}" class="button-icon" style="height: 24px" /></a-->
+				<!--a href="#" download="measure.json"><img name="geojson_export_button" src="${geoJSONIcon}" class="button-icon" style="height: 24px" /></a-->
+				<!--a href="#" download="measure.dxf"><img name="dxf_export_button" src="${dxfIcon}" class="button-icon" style="height: 24px" /></a-->
 				<a href="#" download="potree.json5"><img name="potree_export_button" src="${potreeIcon}" class="button-icon" style="height: 24px" /></a>
+         <!--href="#" download="potree.json5"-->
 			`);
 
       let elDownloadJSON = elExport
@@ -475,7 +478,7 @@ export class Sidebar {
         .find('img[name=potree_export_button]')
         .parent();
       elDownloadPotree.click((event) => {
-        let data = Potree.saveProject(this.viewer);
+        let data = Potree.saveProject(this.viewer, tree);
         let dataString = JSON5.stringify(data, null, '\t');
 
         let url = window.URL.createObjectURL(
@@ -489,9 +492,6 @@ export class Sidebar {
     propertiesPanel.setScene(this.viewer.scene);
 
     localStorage.removeItem('jstree');
-
-    let tree = $(`<div id="jstree_scene"></div>`);
-    elObjects.append(tree);
 
     tree.jstree({
       plugins: ['checkbox', 'state', 'dnd'],
@@ -515,8 +515,6 @@ export class Sidebar {
         use_html5: true, // Use HTML5 drag-and-drop API
       },
     });
-
-    console.log('reached here');
 
     tree.on('move_node.jstree', function (e, data) {
       console.log('Moved node:', data.node);
@@ -555,9 +553,8 @@ export class Sidebar {
         false,
         false
       );
-      
-      const newText = text.replaceAll("nodeID",`nodeID="${nodeID}"`)
-      console.log(newText);
+
+      const newText = text.replaceAll('nodeID', `nodeID="${nodeID}"`);
       tree.jstree(true).rename_node(nodeID, newText);
 
       object.nodeID = nodeID;
@@ -637,43 +634,31 @@ export class Sidebar {
             viewer.scene.removeAnnotation(object.annotation);
           }
         );
-        $(document).on(
-          'click',
-          `img[name="copy"][nodeID="${nodeID}"]`,
-          (e) => {
-            e.stopPropagation();
+        $(document).on('click', `img[name="copy"][nodeID="${nodeID}"]`, (e) => {
+          e.stopPropagation();
 
-            const node = tree.jstree(true).get_node(nodeID);
-            const oldName = node.text.split('<')[0].trim();
-            const newName = prompt(
-              'Enter a name for the duplicate:',
-              oldName
-            ).trim();
+          const node = tree.jstree(true).get_node(nodeID);
+          const oldName = node.text.split('<')[0].trim();
+          const newName = prompt(
+            'Enter a name for the duplicate:',
+            oldName
+          ).trim();
 
-            const newAnnotation = new Potree.Annotation({
-              title: newName,
-              position: node.data.annotation.position,
-              cameraPosition: node.data.annotation.cameraPosition,
-              cameraTarget: node.data.annotation.position,
-            });
+          const newAnnotation = new Potree.Annotation({
+            title: newName,
+            position: node.data.annotation.position,
+            cameraPosition: node.data.annotation.cameraPosition,
+            cameraTarget: node.data.annotation.position,
+          });
 
-            const newObject = node.data.clone();
-            newObject.name = newName;
-            newObject.uuid = generateUUID();
-            newObject.annotation = newAnnotation;
+          const newObject = node.data.clone();
+          newObject.name = newName;
+          newObject.uuid = generateUUID();
+          newObject.annotation = newAnnotation;
 
-            viewer.scene.addMeasurement(newObject);
-            viewer.scene.annotations.add(newAnnotation);
-
-            // const newNodeID = createNode(
-            //   node,
-            //   newText,
-            //   node.icon,
-            //   newObject,
-            //   'after'
-            // );
-          }
-        );
+          viewer.scene.addMeasurement(newObject);
+          viewer.scene.annotations.add(newAnnotation);
+        });
       }
 
       return nodeID;
@@ -918,8 +903,10 @@ export class Sidebar {
 
     let onMeasurementAdded = (e) => {
       let measurement = e.measurement;
-      let icon = Utils.getMeasurementIcon(measurement);
-      createNode(measurementID, measurement.name, icon, measurement);
+      if (!measurement.nodeID) {
+        let icon = Utils.getMeasurementIcon(measurement);
+        createNode(measurementID, measurement.name, icon, measurement);
+      }
     };
 
     let onFolderAdded = (e) => {
