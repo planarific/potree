@@ -16,7 +16,7 @@ export class AreaPanel extends MeasurePanel {
 				<div style="display: flex; margin-top: 12px">
 					<span></span>
 					<span style="flex-grow: 1"></span>
-					<img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>
+					<!--img name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/-->
 				</div>
 			</div>
 		`);

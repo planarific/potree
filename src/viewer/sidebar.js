@@ -526,7 +526,7 @@ export class Sidebar {
       if (object instanceof Measure) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
-        let copyIconPath = Potree.resourcePath + '/icons/copy.png';
+        let copyIconPath = Potree.resourcePath + '/icons/copy.svg';
         let removeIcon = `<img nodeID name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
         let renameIcon = `<img nodeID name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
         let copyIcon = `<img nodeID name="copy" class="button-icon" src="${copyIconPath}" style="width: 16px; height: 16px"/>`;
@@ -652,10 +652,26 @@ export class Sidebar {
             cameraTarget: node.data.annotation.position.clone(),
           });
 
-          const newObject = node.data.clone();
-          newObject.name = newName;
+          const newObject = new Measure();
           newObject.uuid = generateUUID();
+          newObject.nodeID = null;
+          newObject.name = newName;
           newObject.annotation = newAnnotation;
+          newObject.showDistances = node.data.showDistances;
+          newObject.showCoordinates = node.data.showCoordinates;
+          newObject.showArea = node.data.showArea;
+          newObject.closed = node.data.closed;
+          newObject.showAngles = node.data.showAngles;
+          newObject.showHeight = node.data.showHeight;
+          newObject.showCircle = node.data.showCircle;
+          newObject.showAzimuth = node.data.showAzimuth;
+          newObject.showEdges = node.data.showEdges;
+
+          let points = node.data.points.map((p) => p.position.toArray());
+          for (const point of points) {
+            const pos = new THREE.Vector3(...point);
+            newObject.addMarker(pos);
+          }
 
           viewer.scene.addMeasurement(newObject);
           viewer.scene.annotations.add(newAnnotation);
@@ -921,7 +937,6 @@ export class Sidebar {
     };
 
     const createTreeNodes = (nodes) => {
-      
       for (const node of nodes) {
         let object = {};
         if (node.instanceOf === 'Measure') {

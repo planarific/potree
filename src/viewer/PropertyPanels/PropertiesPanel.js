@@ -907,21 +907,22 @@ export class PropertiesPanel{
 
 		let getType = (measurement) => {
 			if (measurement instanceof Measure) {
-				if (measurement.showDistances && !measurement.showArea && !measurement.showAngles) {
-					return TYPE.DISTANCE;
-				} else if (measurement.showDistances && measurement.showArea && !measurement.showAngles) {
-					return TYPE.AREA;
-				} else if (measurement.maxMarkers === 1) {
-					return TYPE.POINT;
-				} else if (!measurement.showDistances && !measurement.showArea && measurement.showAngles) {
-					return TYPE.ANGLE;
-				} else if (measurement.showHeight) {
-					return TYPE.HEIGHT;
-				} else if (measurement.showCircle) {
-					return TYPE.CIRCLE;
-				} else {
-					return TYPE.OTHER;
-				}
+				return TYPE.AREA;
+				// if (measurement.showDistances && !measurement.showArea && !measurement.showAngles) {
+				// 	return TYPE.DISTANCE;
+				// } else if (measurement.showDistances && measurement.showArea && !measurement.showAngles) {
+				// 	return TYPE.AREA;
+				// } else if (measurement.maxMarkers === 1) {
+				// 	return TYPE.POINT;
+				// } else if (!measurement.showDistances && !measurement.showArea && measurement.showAngles) {
+				// 	return TYPE.ANGLE;
+				// } else if (measurement.showHeight) {
+				// 	return TYPE.HEIGHT;
+				// } else if (measurement.showCircle) {
+				// 	return TYPE.CIRCLE;
+				// } else {
+				// 	return TYPE.OTHER;
+				// }
 			} else if (measurement instanceof Profile) {
 				return TYPE.PROFILE;
 			} else if (measurement instanceof Volume) {
