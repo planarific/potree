@@ -273,12 +273,15 @@ export function saveProject(viewer, tree) {
 
 const processTreeData = (parentID, treeData) => {
   const processedTreeData = [];
+  console.log(`${Potree.resourcePath}/icons/`);
   for (const child of treeData) {
     const processedChild = {
       parent: parentID,
+      id: child.id,
       text: child.text.split('<')[0].trim(),
       icon: child.icon,
       objectUUID: child.data.uuid,
+      instanceOf: child.data.instanceOf,
     };
     if (child.data.instanceOf === 'Folder')
       processedChild.children = processTreeData(child.id, child.children);

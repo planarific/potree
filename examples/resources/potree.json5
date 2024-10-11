@@ -406,21 +406,37 @@
 	treeData: [
 		{
 			parent: 'measurements',
-			text: 'tilted roof',
-			icon: 'http://127.0.0.1:5500/build/potree/resources/icons/area.svg',
-			objectUUID: 'C12DADB1-4028-469B-B2F2-E613D2F3E461',
-		},
-		{
-			parent: 'measurements',
+			id: 'j1_4',
 			text: 'window',
 			icon: 'http://127.0.0.1:5500/build/potree/resources/icons/area.svg',
 			objectUUID: '1131203B-2E3C-41F0-AD9D-627D7392F3B7',
+			instanceOf: 'Measure',
 		},
 		{
 			parent: 'measurements',
-			text: 'flat roof',
-			icon: 'http://127.0.0.1:5500/build/potree/resources/icons/area.svg',
-			objectUUID: '2593EB4E-7513-4E29-B01C-C75F0B7F9FF0',
+			id: 'j1_7',
+			text: 'roofs',
+			icon: 'http://127.0.0.1:5500/build/potree/resources/icons/folder.png',
+			objectUUID: '41D39A4D-8185-4DC1-807A-24AC00FC526D',
+			instanceOf: 'Folder',
+			children: [
+				{
+					parent: 'j1_7',
+					id: 'j1_3',
+					text: 'tilted roof',
+					icon: 'http://127.0.0.1:5500/build/potree/resources/icons/area.svg',
+					objectUUID: 'C12DADB1-4028-469B-B2F2-E613D2F3E461',
+					instanceOf: 'Measure',
+				},
+				{
+					parent: 'j1_7',
+					id: 'j1_5',
+					text: 'flat roof',
+					icon: 'http://127.0.0.1:5500/build/potree/resources/icons/area.svg',
+					objectUUID: '2593EB4E-7513-4E29-B01C-C75F0B7F9FF0',
+					instanceOf: 'Measure',
+				},
+			],
 		},
 	],
 }

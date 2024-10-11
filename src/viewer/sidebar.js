@@ -522,7 +522,7 @@ export class Sidebar {
       console.log('New position:', data.position);
     });
 
-    let createNode = (parent, text, icon, object, position = 'last') => {
+    let createNode = (parent, text, icon, object, position = 'last', id) => {
       if (object instanceof Measure) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
         let renameIconPath = Potree.resourcePath + '/icons/rename.png';
@@ -545,6 +545,7 @@ export class Sidebar {
         'create_node',
         parent,
         {
+          id: id,
           text: text,
           icon: icon,
           data: object,
@@ -646,9 +647,9 @@ export class Sidebar {
 
           const newAnnotation = new Potree.Annotation({
             title: newName,
-            position: node.data.annotation.position,
-            cameraPosition: node.data.annotation.cameraPosition,
-            cameraTarget: node.data.annotation.position,
+            position: node.data.annotation.position.clone(),
+            cameraPosition: node.data.annotation.cameraPosition.clone(),
+            cameraTarget: node.data.annotation.position.clone(),
           });
 
           const newObject = node.data.clone();
@@ -915,6 +916,42 @@ export class Sidebar {
       createNode(measurementID, folder.name, icon, folder);
     };
 
+    let onTreeDataLoaded = (e) => {
+      createTreeNodes(e.data);
+    };
+
+    const createTreeNodes = (nodes) => {
+      
+      for (const node of nodes) {
+        let object = {};
+        if (node.instanceOf === 'Measure') {
+          object = this.viewer.scene.measurements.find(
+            (measurement) => measurement.uuid === node.objectUUID
+          );
+          createNode(
+            node.parent,
+            node.text,
+            node.icon,
+            object,
+            'last',
+            node.id
+          );
+        } else {
+          object = new Folder();
+          object.uuid = node.objectUUID;
+          createNode(
+            node.parent,
+            node.text,
+            node.icon,
+            object,
+            'last',
+            node.id
+          );
+          createTreeNodes(node.children);
+        }
+      }
+    };
+
     let onVolumeAdded = (e) => {
       let volume = e.volume;
       let icon = Utils.getMeasurementIcon(volume);
@@ -1024,6 +1061,7 @@ export class Sidebar {
 
     this.viewer.scene.addEventListener('pointcloud_added', onPointCloudAdded);
     this.viewer.scene.addEventListener('measurement_added', onMeasurementAdded);
+    this.viewer.scene.addEventListener('tree_data_loaded', onTreeDataLoaded);
     this.viewer.scene.addEventListener('folder_added', onFolderAdded);
     this.viewer.scene.addEventListener('profile_added', onProfileAdded);
     this.viewer.scene.addEventListener('volume_added', onVolumeAdded);

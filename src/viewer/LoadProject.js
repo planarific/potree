@@ -312,6 +312,13 @@ function loadClassification(viewer, data) {
   viewer.setClassifications(classifications);
 }
 
+function loadTreeData(viewer, treeData) {
+  viewer.scene.dispatchEvent({
+    type: 'tree_data_loaded',
+    data: treeData,
+  });
+}
+
 export async function loadProject(viewer, data) {
   if (data.type !== 'Potree') {
     console.error('not a valid Potree project');
@@ -333,6 +340,8 @@ export async function loadProject(viewer, data) {
   for (const measure of data.measurements) {
     loadMeasurement(viewer, measure);
   }
+
+  loadTreeData(viewer, data.treeData);
 
   for (const volume of data.volumes) {
     loadVolume(viewer, volume);
