@@ -503,6 +503,15 @@ export class Sidebar {
         check_callback: true,
         expand_selected_onload: true,
         multiple: false,
+        check_callback: function (operation, node, parent, position, more) {
+          if (operation === 'move_node') {
+            const parentNode = this.get_node(parent)
+            if (parentNode.data && parentNode.data.instanceOf === 'Measure') {
+              return false;
+            }
+          }
+          return true;
+        },
       },
       checkbox: {
         keep_selected_style: true,
@@ -511,8 +520,8 @@ export class Sidebar {
         tie_selection: false,
       },
       dnd: {
-        inside_pos: 'last', // You can control where dropped nodes are placed ('last', 'first', etc.)
-        use_html5: true, // Use HTML5 drag-and-drop API
+        inside_pos: 'last',
+        use_html5: true,
       },
     });
 
@@ -934,6 +943,10 @@ export class Sidebar {
 
     let onTreeDataLoaded = (e) => {
       createTreeNodes(e.data);
+      this.viewer.scene.removeEventListener(
+        'tree_data_loaded',
+        onTreeDataLoaded
+      );
     };
 
     const createTreeNodes = (nodes) => {
