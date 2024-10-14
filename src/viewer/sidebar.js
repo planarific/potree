@@ -239,7 +239,6 @@ export class Sidebar {
         Potree.resourcePath + '/icons/area.svg',
         '[title]tt.area_measurement',
         () => {
-          console.log('area.svg');
           $('#menu_measurements').next().slideDown();
           let measurementName = prompt('Enter a measurement name:', 'Area');
           if (!measurementName) {
@@ -505,7 +504,7 @@ export class Sidebar {
         multiple: false,
         check_callback: function (operation, node, parent, position, more) {
           if (operation === 'move_node') {
-            const parentNode = this.get_node(parent)
+            const parentNode = this.get_node(parent);
             if (parentNode.data && parentNode.data.instanceOf === 'Measure') {
               return false;
             }
@@ -575,14 +574,17 @@ export class Sidebar {
         tree.jstree('uncheck_node', nodeID);
       }
 
-      const removeNodesRecursively = (node) => {
-        for (let childId of node.children) {
-          const childNode = tree.jstree(true).get_node(childId);
+      const recursiveDeleteNode = (node) => {
+        while (node.children.length > 0) {
+          const nodeID = node.children[0];
+          const childNode = tree.jstree(true).get_node(nodeID);
           const object = childNode.data;
-          if (object instanceof Folder) removeRecursively(childNode);
-          else if (object instanceof Measure) {
+          if (object instanceof Measure) {
             viewer.scene.removeMeasurement(object);
             viewer.scene.removeAnnotation(object.annotation);
+          } else if (object instanceof Folder) {
+            recursiveDeleteNode(childNode);
+            tree.jstree('delete_node', nodeID);
           }
         }
       };
@@ -609,7 +611,7 @@ export class Sidebar {
           (e) => {
             e.stopPropagation();
             const node = tree.jstree(true).get_node(nodeID);
-            removeNodesRecursively(node);
+            recursiveDeleteNode(node);
             tree.jstree('delete_node', nodeID);
           }
         );
@@ -795,7 +797,6 @@ export class Sidebar {
         //   this.viewer.zoomTo(node, 2, 500);
         // }
         object.annotation.moveHere(this.viewer.scene.getActiveCamera());
-        console.log('camera roll!!');
       } else if (object instanceof Profile) {
         let points = object.points;
         let box = new THREE.Box3().setFromPoints(points);
