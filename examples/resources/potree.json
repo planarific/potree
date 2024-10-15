@@ -1,0 +1,442 @@
+{
+	"type": "Potree",
+	"version": 1.7,
+	"settings": {
+		"pointBudget": 1000000,
+		"fov": 60,
+		"edlEnabled": false,
+		"edlRadius": 1.4,
+		"edlStrength": 0.4,
+		"background": "skybox",
+		"minNodeSize": 30,
+		"showBoundingBoxes": false
+	},
+	"view": {
+		"position": [
+			432791.3124932837,
+			385508.0881466784,
+			125.4862398265584
+		],
+		"target": [
+			432788.1721797207,
+			385516.0533106797,
+			122.90955034774578
+		]
+	},
+	"classification": {
+		"0": {
+			"visible": true,
+			"name": "never classified",
+			"color": [
+				0.5,
+				0.5,
+				0.5,
+				1
+			]
+		},
+		"1": {
+			"visible": true,
+			"name": "unclassified",
+			"color": [
+				0.5,
+				0.5,
+				0.5,
+				1
+			]
+		},
+		"2": {
+			"visible": true,
+			"name": "ground",
+			"color": [
+				0.63,
+				0.32,
+				0.18,
+				1
+			]
+		},
+		"3": {
+			"visible": true,
+			"name": "low vegetation",
+			"color": [
+				0,
+				1,
+				0,
+				1
+			]
+		},
+		"4": {
+			"visible": true,
+			"name": "medium vegetation",
+			"color": [
+				0,
+				0.8,
+				0,
+				1
+			]
+		},
+		"5": {
+			"visible": true,
+			"name": "high vegetation",
+			"color": [
+				0,
+				0.6,
+				0,
+				1
+			]
+		},
+		"6": {
+			"visible": true,
+			"name": "building",
+			"color": [
+				1,
+				0.66,
+				0,
+				1
+			]
+		},
+		"7": {
+			"visible": true,
+			"name": "low point(noise)",
+			"color": [
+				1,
+				0,
+				1,
+				1
+			]
+		},
+		"8": {
+			"visible": true,
+			"name": "key-point",
+			"color": [
+				1,
+				0,
+				0,
+				1
+			]
+		},
+		"9": {
+			"visible": true,
+			"name": "water",
+			"color": [
+				0,
+				0,
+				1,
+				1
+			]
+		},
+		"12": {
+			"visible": true,
+			"name": "overlap",
+			"color": [
+				1,
+				1,
+				0,
+				1
+			]
+		},
+		"DEFAULT": {
+			"visible": true,
+			"name": "default",
+			"color": [
+				0.3,
+				0.6,
+				0.6,
+				0.5
+			]
+		}
+	},
+	"pointclouds": [
+		{
+			"name": "sigeom.sa",
+			"url": "https://pfpotreeexperiments.blob.core.windows.net/samson/metadata.json",
+			"position": [
+				432774.568,
+				385505.326,
+				119.074
+			],
+			"rotation": [
+				0,
+				0,
+				0,
+				"XYZ"
+			],
+			"scale": [
+				1,
+				1,
+				1
+			],
+			"material": {
+				"activeAttributeName": "rgba",
+				"ranges": [
+					{
+						"name": "elevationRange",
+						"value": [
+							119.074,
+							131.529
+						]
+					},
+					{
+						"name": "intensityRange",
+						"value": [
+							6,
+							4091
+						]
+					}
+				],
+				"size": 1,
+				"minSize": 2,
+				"pointSizeType": "ADAPTIVE",
+				"matcap": "matcap.jpg"
+			}
+		}
+	],
+	"measurements": [
+		{
+			"uuid": "C12DADB1-4028-469B-B2F2-E613D2F3E461",
+			"name": "tilted roof",
+			"nodeID": "j1_3",
+			"annotationId": "D451DBBE-11DB-4861-84AE-A3DD2A632E29",
+			"points": [
+				[
+					432788.2870000035,
+					385514.09699997137,
+					124.72000005912507
+				],
+				[
+					432790.27300000575,
+					385513.33100005816,
+					123.5779999799701
+				],
+				[
+					432791.27000002866,
+					385515.87000000477,
+					123.5339999504062
+				],
+				[
+					432789.2119999409,
+					385516.62600004673,
+					124.72600010108674
+				]
+			],
+			"showDistances": true,
+			"showCoordinates": false,
+			"showArea": true,
+			"closed": true,
+			"showAngles": false,
+			"showHeight": false,
+			"showCircle": false,
+			"showAzimuth": false,
+			"showEdges": true,
+			"color": [
+				1,
+				0,
+				0
+			]
+		},
+		{
+			"uuid": "1131203B-2E3C-41F0-AD9D-627D7392F3B7",
+			"name": "window",
+			"nodeID": "j1_4",
+			"annotationId": "71F82A89-DDE2-4D9C-85F1-7ED6D542FC20",
+			"points": [
+				[
+					432789.66000001435,
+					385516.5369999409,
+					126.2809999906962
+				],
+				[
+					432789.5890000344,
+					385516.56599998474,
+					124.9430000052411
+				],
+				[
+					432790.75000000384,
+					385516.1510000229,
+					124.92999999379701
+				],
+				[
+					432790.71700005536,
+					385516.1359999776,
+					126.27399999141146
+				]
+			],
+			"showDistances": true,
+			"showCoordinates": false,
+			"showArea": true,
+			"closed": true,
+			"showAngles": false,
+			"showHeight": false,
+			"showCircle": false,
+			"showAzimuth": false,
+			"showEdges": true,
+			"color": [
+				1,
+				0,
+				0
+			]
+		},
+		{
+			"uuid": "2593EB4E-7513-4E29-B01C-C75F0B7F9FF0",
+			"name": "flat roof",
+			"nodeID": "j1_5",
+			"annotationId": "F3A44F1B-EBD4-4623-B84E-D764B213459E",
+			"points": [
+				[
+					432786.87499997235,
+					385510.48899999756,
+					123.4170000262233
+				],
+				[
+					432788.7559999705,
+					385509.8379999962,
+					123.30499997806275
+				],
+				[
+					432790.0660000325,
+					385513.29700001905,
+					123.3279999799701
+				],
+				[
+					432788.1320000023,
+					385513.93000003527,
+					123.4199999875995
+				]
+			],
+			"showDistances": true,
+			"showCoordinates": false,
+			"showArea": true,
+			"closed": true,
+			"showAngles": false,
+			"showHeight": false,
+			"showCircle": false,
+			"showAzimuth": false,
+			"showEdges": true,
+			"color": [
+				1,
+				0,
+				0
+			]
+		}
+	],
+	"volumes": [],
+	"cameraAnimations": [],
+	"profiles": [],
+	"annotations": [
+		{
+			"uuid": "D451DBBE-11DB-4861-84AE-A3DD2A632E29",
+			"title": "tilted roof",
+			"description": "",
+			"position": [
+				432789.7604999947,
+				385514.9810000203,
+				124.13950002264703
+			],
+			"offset": [
+				0,
+				0,
+				0
+			],
+			"children": [],
+			"cameraPosition": [
+				432792.8002706824,
+				385510.77861036814,
+				127.01178632612145
+			],
+			"cameraTarget": [
+				432789.7604999947,
+				385514.9810000203,
+				124.13950002264703
+			]
+		},
+		{
+			"uuid": "71F82A89-DDE2-4D9C-85F1-7ED6D542FC20",
+			"title": "window",
+			"description": "",
+			"position": [
+				432790.17900002695,
+				385516.3474999815,
+				125.60699999528644
+			],
+			"offset": [
+				0,
+				0,
+				0
+			],
+			"children": [],
+			"cameraPosition": [
+				432792.8002706824,
+				385510.77861036814,
+				127.01178632612145
+			],
+			"cameraTarget": [
+				432790.17900002695,
+				385516.3474999815,
+				125.60699999528644
+			]
+		},
+		{
+			"uuid": "F3A44F1B-EBD4-4623-B84E-D764B213459E",
+			"title": "flat roof",
+			"description": "",
+			"position": [
+				432788.4572499944,
+				385511.88850001205,
+				123.36749999296391
+			],
+			"offset": [
+				0,
+				0,
+				0
+			],
+			"children": [],
+			"cameraPosition": [
+				432789.587318575,
+				385507.5357353517,
+				125.23183974971894
+			],
+			"cameraTarget": [
+				432788.4572499944,
+				385511.88850001205,
+				123.36749999296391
+			]
+		}
+	],
+	"orientedImages": [],
+	"geopackages": [],
+	"treeData": [
+		{
+			"parent": "measurements",
+			"id": "j1_4",
+			"text": "window",
+			"icon": "http://127.0.0.1:5500/build/potree/resources/icons/area.svg",
+			"objectUUID": "1131203B-2E3C-41F0-AD9D-627D7392F3B7",
+			"instanceOf": "Measure"
+		},
+		{
+			"parent": "measurements",
+			"id": "j1_7",
+			"text": "roofs",
+			"icon": "http://127.0.0.1:5500/build/potree/resources/icons/folder.png",
+			"objectUUID": "41D39A4D-8185-4DC1-807A-24AC00FC526D",
+			"instanceOf": "Folder",
+			"children": [
+				{
+					"parent": "j1_7",
+					"id": "j1_3",
+					"text": "tilted roof",
+					"icon": "http://127.0.0.1:5500/build/potree/resources/icons/area.svg",
+					"objectUUID": "C12DADB1-4028-469B-B2F2-E613D2F3E461",
+					"instanceOf": "Measure"
+				},
+				{
+					"parent": "j1_7",
+					"id": "j1_5",
+					"text": "flat roof",
+					"icon": "http://127.0.0.1:5500/build/potree/resources/icons/area.svg",
+					"objectUUID": "2593EB4E-7513-4E29-B01C-C75F0B7F9FF0",
+					"instanceOf": "Measure"
+				}
+			]
+		}
+	]
+}

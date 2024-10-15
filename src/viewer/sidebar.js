@@ -18,8 +18,6 @@ import { OrientedImage } from '../modules/OrientedImages/OrientedImages.js';
 import { Images360 } from '../modules/Images360/Images360.js';
 import { generateUUID } from '../utils/generateUUID.js';
 
-import JSON5 from '../../libs/json5-2.1.3/json5.mjs';
-
 export class Sidebar {
   constructor(viewer) {
     this.viewer = viewer;
@@ -423,8 +421,8 @@ export class Sidebar {
 				Export: <br>
 				<!--a href="#" download="measure.json"><img name="geojson_export_button" src="${geoJSONIcon}" class="button-icon" style="height: 24px" /></a-->
 				<!--a href="#" download="measure.dxf"><img name="dxf_export_button" src="${dxfIcon}" class="button-icon" style="height: 24px" /></a-->
-				<a href="#" download="potree.json5"><img name="potree_export_button" src="${potreeIcon}" class="button-icon" style="height: 24px" /></a>
-         <!--href="#" download="potree.json5"-->
+				<a href="#" download="potree.json"><img name="potree_export_button" src="${potreeIcon}" class="button-icon" style="height: 24px" /></a>
+         <!--href="#" download="potree.json"-->
 			`);
 
       let elDownloadJSON = elExport
@@ -478,7 +476,7 @@ export class Sidebar {
         .parent();
       elDownloadPotree.click((event) => {
         let data = Potree.saveProject(this.viewer, tree);
-        let dataString = JSON5.stringify(data, null, '\t');
+        let dataString = JSON.stringify(data, null, '\t');
 
         let url = window.URL.createObjectURL(
           new Blob([dataString], { type: 'data:application/octet-stream' })
