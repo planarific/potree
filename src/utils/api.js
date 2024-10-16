@@ -21,6 +21,18 @@ const postProject = (projectData) => {
     });
 };
 
+const putProject = (id, projectData) => {
+  console.log('put');
+  return baseURL(axios)
+    .put(`/${id}`, { markup: projectData })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 // const patchComment = (comment_id) => {
 //   return ncNewsApi
 //     .patch(`/comments/${comment_id}`, { inc_votes: 1 })
@@ -41,4 +53,4 @@ const postProject = (projectData) => {
 //   });
 // };
 
-export { getProject, postProject };
+export { getProject, postProject, putProject };

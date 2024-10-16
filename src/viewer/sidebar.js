@@ -17,7 +17,7 @@ import { HierarchicalSlider } from './HierarchicalSlider.js';
 import { OrientedImage } from '../modules/OrientedImages/OrientedImages.js';
 import { Images360 } from '../modules/Images360/Images360.js';
 import { generateUUID } from '../utils/generateUUID.js';
-import { postProject } from '../utils/api.js';
+import { putProject } from '../utils/api.js';
 
 export class Sidebar {
   constructor(viewer) {
@@ -475,8 +475,7 @@ export class Sidebar {
       let elDownloadPotree = elExport.find('img[name=potree_export_button]');
       elDownloadPotree.click((event) => {
         let projectData = Potree.saveProject(this.viewer, tree);
-        //let dataString = JSON.stringify(data, null, '\t');
-        postProject(projectData);
+        putProject('a0991d7c-93ca-4ecb-8f2d-07f0b2776095', projectData);
 
         // let url = window.URL.createObjectURL(
         //   new Blob([dataString], { type: 'data:application/octet-stream' })
