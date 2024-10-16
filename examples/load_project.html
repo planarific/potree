@@ -43,6 +43,7 @@
     <script src="../libs/jstree/jstree.js"></script>
     <script src="../build/potree/potree.js"></script>
     <script src="../libs/plasio/js/laslaz.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <div
       class="potree_container"
@@ -59,6 +60,7 @@
 
     <script type="module">
       import * as THREE from '../libs/three.js/build/three.module.js';
+      import { getProject } from '../src/utils/api.js';
 
       window.viewer = new Potree.Viewer(
         document.getElementById('potree_render_area')
@@ -68,16 +70,21 @@
         'Potree projects that were exported (Scene → Export → Potree) can be loaded with viewer.loadProject(url). '
       );
 
-      viewer.loadGUI().then(() => {
-        viewer.setLanguage('en');
-        $('#menu_tools').next().show();
-        $('#menu_scene').next().show();
-        viewer.toggleSidebar();
-      });
-
-      viewer.loadProject('./resources/potree.json').then(() => {
-        console.log('JSON, not JSON5 project loaded');
-      });
+      viewer
+        .loadGUI()
+        .then(() => {
+          viewer.setLanguage('en');
+          $('#menu_tools').next().show();
+          $('#menu_scene').next().show();
+          viewer.toggleSidebar();
+        })
+        .then(() => getProject('a0991d7c-93ca-4ecb-8f2d-07f0b2776095'))
+        .then((res) => {
+          viewer.loadProject(res);
+        });
+      // viewer.loadProject('./resources/potree.json').then(() => {
+      //   console.log('JSON, not JSON5 project loaded');
+      // });
     </script>
   </body>
 </html>

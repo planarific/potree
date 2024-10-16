@@ -17,6 +17,7 @@ import { HierarchicalSlider } from './HierarchicalSlider.js';
 import { OrientedImage } from '../modules/OrientedImages/OrientedImages.js';
 import { Images360 } from '../modules/Images360/Images360.js';
 import { generateUUID } from '../utils/generateUUID.js';
+import { postProject } from '../utils/api.js';
 
 export class Sidebar {
   constructor(viewer) {
@@ -421,7 +422,7 @@ export class Sidebar {
 				Export: <br>
 				<!--a href="#" download="measure.json"><img name="geojson_export_button" src="${geoJSONIcon}" class="button-icon" style="height: 24px" /></a-->
 				<!--a href="#" download="measure.dxf"><img name="dxf_export_button" src="${dxfIcon}" class="button-icon" style="height: 24px" /></a-->
-				<a href="#" download="potree.json"><img name="potree_export_button" src="${potreeIcon}" class="button-icon" style="height: 24px" /></a>
+				<img name="potree_export_button" src="${potreeIcon}" class="button-icon" style="height: 24px" />
          <!--href="#" download="potree.json"-->
 			`);
 
@@ -471,17 +472,16 @@ export class Sidebar {
         }
       });
 
-      let elDownloadPotree = elExport
-        .find('img[name=potree_export_button]')
-        .parent();
+      let elDownloadPotree = elExport.find('img[name=potree_export_button]');
       elDownloadPotree.click((event) => {
-        let data = Potree.saveProject(this.viewer, tree);
-        let dataString = JSON.stringify(data, null, '\t');
+        let projectData = Potree.saveProject(this.viewer, tree);
+        //let dataString = JSON.stringify(data, null, '\t');
+        postProject(projectData);
 
-        let url = window.URL.createObjectURL(
-          new Blob([dataString], { type: 'data:application/octet-stream' })
-        );
-        elDownloadPotree.attr('href', url);
+        // let url = window.URL.createObjectURL(
+        //   new Blob([dataString], { type: 'data:application/octet-stream' })
+        // );
+        // elDownloadPotree.attr('href', url);
       });
     }
 

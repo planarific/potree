@@ -246,9 +246,7 @@ export function saveProject(viewer, tree) {
   const scene = viewer.scene;
 
   const treeData = tree.jstree(true).get_json('#', { flat: false })[1].children;
-  console.log(treeData);
   const processedTreeData = processTreeData('measurements', treeData);
-  console.log(processedTreeData);
 
   const data = {
     type: 'Potree',
@@ -273,7 +271,6 @@ export function saveProject(viewer, tree) {
 
 const processTreeData = (parentID, treeData) => {
   const processedTreeData = [];
-  console.log(`${Potree.resourcePath}/icons/`);
   for (const child of treeData) {
     const processedChild = {
       parent: parentID,
