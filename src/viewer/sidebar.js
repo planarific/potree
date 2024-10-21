@@ -24,6 +24,7 @@ export class Sidebar {
     this.viewer = viewer;
 
     this.measuringTool = viewer.measuringTool;
+    this.topPrismMeasuringTool = viewer.topPrismMeasuringTool;
     this.profileTool = viewer.profileTool;
     this.volumeTool = viewer.volumeTool;
 
@@ -232,6 +233,39 @@ export class Sidebar {
     //   )
     // );
 
+    // FOLDER
+    elToolbar.append(
+      this.createToolIcon(
+        Potree.resourcePath + '/icons/folder.png',
+        '[title]tt.folder',
+        () => {
+          $('#menu_measurements').next().slideDown();
+          let folderName = prompt('How would you like to name it?', 'Folder');
+          if (!folderName) {
+            folderName = 'Folder'; // Default to "Area" if no input is given
+          }
+
+          let folder = new Folder();
+          folder.name = folderName;
+
+          this.viewer.scene.dispatchEvent({
+            type: 'folder_added',
+            scene: this.viewer.scene,
+            folder: folder,
+          });
+
+          let measurementsRoot = $('#jstree_scene')
+            .jstree()
+            .get_json('measurements');
+          let jsonNode = measurementsRoot.children.find(
+            (child) => child.data.uuid === folder.uuid
+          );
+          $.jstree.reference(jsonNode.id).deselect_all();
+          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+        }
+      )
+    );
+
     // AREA
     elToolbar.append(
       this.createToolIcon(
@@ -239,7 +273,10 @@ export class Sidebar {
         '[title]tt.area_measurement',
         () => {
           $('#menu_measurements').next().slideDown();
-          let measurementName = prompt('Enter a measurement name:', 'Area');
+          let measurementName = prompt(
+            'How would you like to name it?',
+            'Area'
+          );
           if (!measurementName) {
             measurementName = 'Area'; // Default to "Area" if no input is given
           }
@@ -262,35 +299,36 @@ export class Sidebar {
       )
     );
 
-    // FOLDER
+    // TOP PRISM
     elToolbar.append(
       this.createToolIcon(
-        Potree.resourcePath + '/icons/folder.png',
-        'Folder',
+        Potree.resourcePath + '/icons/top.svg',
+        '[title]tt.top_prism_measurement',
         () => {
           $('#menu_measurements').next().slideDown();
-          let folderName = prompt('Enter a folder name:', 'Folder');
-          if (!folderName) {
-            folderName = 'Folder'; // Default to "Area" if no input is given
+          let topPrismName = prompt(
+            'How would you like to name it?',
+            'Prism by top'
+          );
+          if (!topPrismName) {
+            topPrismName = 'Prism by top';
           }
 
-          let folder = new Folder();
-          folder.name = folderName;
-
-          this.viewer.scene.dispatchEvent({
-            type: 'folder_added',
-            scene: this.viewer.scene,
-            folder: folder,
+          let topPrism = this.topPrismMeasuringTool.startInsertion({
+            showDistances: true,
+            showArea: true,
+            closed: true,
+            name: topPrism,
           });
 
-          let measurementsRoot = $('#jstree_scene')
-            .jstree()
-            .get_json('measurements');
-          let jsonNode = measurementsRoot.children.find(
-            (child) => child.data.uuid === folder.uuid
-          );
-          $.jstree.reference(jsonNode.id).deselect_all();
-          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+          // let measurementsRoot = $('#jstree_scene')
+          //   .jstree()
+          //   .get_json('measurements');
+          // let jsonNode = measurementsRoot.children.find(
+          //   (child) => child.data.uuid === measurement.uuid
+          // );
+          // $.jstree.reference(jsonNode.id).deselect_all();
+          // $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
         }
       )
     );
@@ -595,7 +633,10 @@ export class Sidebar {
             const node = tree.jstree(true).get_node(nodeID);
             const oldName = node.text.split('<')[0].trim();
             const buttons = node.text.replace(oldName, '').trim();
-            const newName = prompt('Enter a new folder name:', oldName).trim();
+            const newName = prompt(
+              'How would you like to rename it?',
+              oldName
+            ).trim();
             if (newName) {
               tree.jstree(true).rename_node(node, `${newName} ${buttons}`);
             }
@@ -624,7 +665,7 @@ export class Sidebar {
             const oldName = node.text.split('<')[0].trim();
             const buttons = node.text.replace(oldName, '').trim();
             const newName = prompt(
-              'Enter a new measurement name:',
+              'How would you like to rename it?',
               oldName
             ).trim();
             if (newName) {
@@ -649,7 +690,7 @@ export class Sidebar {
           const node = tree.jstree(true).get_node(nodeID);
           const oldName = node.text.split('<')[0].trim();
           const newName = prompt(
-            'Enter a name for the duplicate:',
+            'How would you like to name the duplicate?',
             oldName
           ).trim();
 
@@ -1754,11 +1795,11 @@ export class Sidebar {
         element.css('margin-left', '30px');
       }
 
-      elLanguages.append(element);
+      // elLanguages.append(element);
 
-      if (i < languages.length - 1) {
-        elLanguages.append($(document.createTextNode(' - ')));
-      }
+      // if (i < languages.length - 1) {
+      //   elLanguages.append($(document.createTextNode(' - ')));
+      // }
     }
 
     // to close all, call
