@@ -24,7 +24,7 @@ export class Sidebar {
     this.viewer = viewer;
 
     this.measuringTool = viewer.measuringTool;
-    this.topPrismMeasuringTool = viewer.topPrismMeasuringTool;
+    this.wedgeMeasuringTool = viewer.wedgeMeasuringTool;
     this.profileTool = viewer.profileTool;
     this.volumeTool = viewer.volumeTool;
 
@@ -299,27 +299,24 @@ export class Sidebar {
       )
     );
 
-    // TOP PRISM
+    // WEDGE
     elToolbar.append(
       this.createToolIcon(
         Potree.resourcePath + '/icons/top.svg',
-        '[title]tt.top_prism_measurement',
+        '[title]tt.wedge_measurement',
         () => {
           $('#menu_measurements').next().slideDown();
-          let topPrismName = prompt(
-            'How would you like to name it?',
-            'Prism by top'
-          );
-          if (!topPrismName) {
-            topPrismName = 'Prism by top';
+          let wedgeName = prompt('How would you like to name it?', 'Wedge');
+          if (!wedgeName) {
+            wedgeName = 'Wedge';
           }
 
-          let topPrism = this.topPrismMeasuringTool.startInsertion({
+          let wedge = this.wedgeMeasuringTool.startInsertion({
             showDistances: true,
             showArea: true,
             closed: true,
-            name: topPrismName,
-            maxMarkers: 4
+            name: wedgeName,
+            maxMarkers: 4,
           });
 
           // let measurementsRoot = $('#jstree_scene')

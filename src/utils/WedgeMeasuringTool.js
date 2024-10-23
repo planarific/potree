@@ -1,8 +1,8 @@
 import * as THREE from '../../libs/three.js/build/three.module.js';
 import { MeasuringTool } from './MeasuringTool.js';
-import { TopPrismMeasure } from './TopPrismMeasure.js';
+import { WedgeMeasure } from './WedgeMeasure.js';
 
-export class TopPrismMeasuringTool extends MeasuringTool {
+export class WedgeMeasuringTool extends MeasuringTool {
   constructor(viewer) {
     super(viewer);
   }
@@ -10,7 +10,7 @@ export class TopPrismMeasuringTool extends MeasuringTool {
   startInsertion(args = {}) {
     let domElement = this.viewer.renderer.domElement;
 
-    let topPrismMeasure = new TopPrismMeasure();
+    let wedgeMeasure = new WedgeMeasure();
 
     const pick = (defaul, alternative) => {
       if (defaul != null) {
@@ -20,49 +20,47 @@ export class TopPrismMeasuringTool extends MeasuringTool {
       }
     };
 
-    topPrismMeasure.showDistances =
+    wedgeMeasure.showDistances =
       args.showDistances === null ? true : args.showDistances;
 
-    topPrismMeasure.showArea = pick(args.showArea, false);
-    topPrismMeasure.showAngles = pick(args.showAngles, false);
-    topPrismMeasure.showCoordinates = pick(args.showCoordinates, false);
-    topPrismMeasure.showHeight = pick(args.showHeight, false);
-    topPrismMeasure.showCircle = pick(args.showCircle, false);
-    topPrismMeasure.showAzimuth = pick(args.showAzimuth, false);
-    topPrismMeasure.showEdges = pick(args.showEdges, true);
-    topPrismMeasure.closed = pick(args.closed, false);
-    topPrismMeasure.maxMarkers = pick(args.maxMarkers, Infinity);
-    topPrismMeasure.name = args.name || 'topPrismMeasurement';
+    wedgeMeasure.showArea = pick(args.showArea, false);
+    wedgeMeasure.showAngles = pick(args.showAngles, false);
+    wedgeMeasure.showCoordinates = pick(args.showCoordinates, false);
+    wedgeMeasure.showHeight = pick(args.showHeight, false);
+    wedgeMeasure.showCircle = pick(args.showCircle, false);
+    wedgeMeasure.showAzimuth = pick(args.showAzimuth, false);
+    wedgeMeasure.showEdges = pick(args.showEdges, true);
+    wedgeMeasure.closed = pick(args.closed, false);
+    wedgeMeasure.maxMarkers = pick(args.maxMarkers, Infinity);
+    wedgeMeasure.name = args.name || 'wedgeMeasurement';
 
-    this.scene.add(topPrismMeasure);
+    this.scene.add(wedgeMeasure);
 
     let cancel = {
-      removeLastMarker: topPrismMeasure.maxMarkers > 3,
+      removeLastMarker: wedgeMeasure.maxMarkers > 3,
       callback: null,
     };
 
     let insertionCallback = (e) => {
       if (e.button === THREE.MOUSE.LEFT) {
-        if (topPrismMeasure.points.length >= topPrismMeasure.maxMarkers) {
+        if (wedgeMeasure.points.length >= wedgeMeasure.maxMarkers) {
           cancel.callback();
           return;
         }
 
-        topPrismMeasure.addMarker(
-          topPrismMeasure.points[
-            topPrismMeasure.points.length - 1
-          ].position.clone()
+        wedgeMeasure.addMarker(
+          wedgeMeasure.points[wedgeMeasure.points.length - 1].position.clone()
         );
 
         this.viewer.inputHandler.startDragging(
-          topPrismMeasure.spheres[topPrismMeasure.spheres.length - 1]
+          wedgeMeasure.spheres[wedgeMeasure.spheres.length - 1]
         );
       }
     };
 
     cancel.callback = (e) => {
-      const spheres = topPrismMeasure.spheres;
-      const namedPoints = topPrismMeasure.namedPoints;
+      const spheres = wedgeMeasure.spheres;
+      const namedPoints = wedgeMeasure.namedPoints;
 
       let topPoint1Index = -1;
       let topPoint1Height = 0;
@@ -93,7 +91,7 @@ export class TopPrismMeasuringTool extends MeasuringTool {
 
       console.log(namedPoints);
 
-      topPrismMeasure.addMarker(
+      wedgeMeasure.addMarker(
         new THREE.Vector3(
           namedPoints.topPoint1.position.x,
           namedPoints.topPoint1.position.y,
@@ -101,7 +99,7 @@ export class TopPrismMeasuringTool extends MeasuringTool {
         )
       );
 
-      topPrismMeasure.addMarker(
+      wedgeMeasure.addMarker(
         new THREE.Vector3(
           namedPoints.topPoint2.position.x,
           namedPoints.topPoint2.position.y,
@@ -114,29 +112,29 @@ export class TopPrismMeasuringTool extends MeasuringTool {
 
       console.log(spheres);
 
-      topPrismMeasure.make3DShape();
+      wedgeMeasure.make3DShape();
 
       domElement.removeEventListener('mouseup', insertionCallback, false);
       this.viewer.removeEventListener('cancel_insertions', cancel.callback);
-      let centroid = this.calculateCentroid(topPrismMeasure.points);
-      let annotation = this.createAnnotation(topPrismMeasure.name, centroid);
+      let centroid = this.calculateCentroid(wedgeMeasure.points);
+      let annotation = this.createAnnotation(wedgeMeasure.name, centroid);
       this.viewer.scene.annotations.add(annotation);
-      topPrismMeasure.annotation = annotation;
+      wedgeMeasure.annotation = annotation;
     };
 
-    if (topPrismMeasure.maxMarkers > 1) {
+    if (wedgeMeasure.maxMarkers > 1) {
       this.viewer.addEventListener('cancel_insertions', cancel.callback);
       domElement.addEventListener('mouseup', insertionCallback, false);
     }
 
-    topPrismMeasure.addMarker(new THREE.Vector3(0, 0, 0));
+    wedgeMeasure.addMarker(new THREE.Vector3(0, 0, 0));
     this.viewer.inputHandler.startDragging(
-      topPrismMeasure.spheres[topPrismMeasure.spheres.length - 1]
+      wedgeMeasure.spheres[wedgeMeasure.spheres.length - 1]
     );
 
-    this.viewer.scene.addMeasurement(topPrismMeasure);
+    this.viewer.scene.addMeasurement(wedgeMeasure);
 
-    return topPrismMeasure;
+    return wedgeMeasure;
   }
 
   calculateCentroid(points) {

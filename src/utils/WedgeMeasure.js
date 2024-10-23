@@ -6,10 +6,10 @@ import { LineGeometry } from '../../libs/three.js/lines/LineGeometry.js';
 import { LineMaterial } from '../../libs/three.js/lines/LineMaterial.js';
 import { Measure } from './Measure.js';
 
-export class TopPrismMeasure extends Measure {
+export class WedgeMeasure extends Measure {
   constructor(name) {
     super();
-    this.instanceOf = 'TopPrism';
+    this.instanceOf = 'Wedge';
     this.namedPoints = {
       topPoint1: null,
       frontPoint1: null,
