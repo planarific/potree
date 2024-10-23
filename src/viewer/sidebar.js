@@ -318,7 +318,8 @@ export class Sidebar {
             showDistances: true,
             showArea: true,
             closed: true,
-            name: topPrism,
+            name: topPrismName,
+            maxMarkers: 4
           });
 
           // let measurementsRoot = $('#jstree_scene')

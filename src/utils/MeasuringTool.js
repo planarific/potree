@@ -190,10 +190,10 @@ export class MeasuringTool extends EventDispatcher {
 
     let measure = new Measure();
 
-    this.dispatchEvent({
-      type: 'start_inserting_measurement',
-      measure: measure,
-    });
+    // this.dispatchEvent({
+    //   type: 'start_inserting_measurement',
+    //   measure: measure,
+    // });
 
     const pick = (defaul, alternative) => {
       if (defaul != null) {
