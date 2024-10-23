@@ -165,4 +165,6 @@ export class TopPrismMeasuringTool extends MeasuringTool {
 
     return annotation;
   }
+
+  update() {}
 }

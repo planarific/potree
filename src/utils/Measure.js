@@ -353,7 +353,7 @@ export class Measure extends THREE.Object3D {
       edgeLabel.setBorderColor({ r: 0, g: 0, b: 0, a: 1.0 });
       edgeLabel.setBackgroundColor({ r: 0, g: 0, b: 0, a: 1.0 });
       edgeLabel.material.depthTest = false;
-      edgeLabel.visible = false;
+      edgeLabel.visible = true;
       edgeLabel.fontsize = 16;
       this.edgeLabels.push(edgeLabel);
       this.add(edgeLabel);

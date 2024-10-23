@@ -145,7 +145,7 @@ export class MeasuringTool extends EventDispatcher {
       });
     });
 
-    this.showLabels = true;
+    this.showLabels = false;
     this.scene = new THREE.Scene();
     this.scene.name = 'scene_measurement';
     this.light = new THREE.PointLight(0xffffff, 1.0);

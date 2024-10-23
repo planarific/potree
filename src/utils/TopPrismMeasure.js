@@ -47,7 +47,7 @@ export class TopPrismMeasure extends Measure {
       edgeLabel.setBorderColor({ r: 0, g: 0, b: 0, a: 1.0 });
       edgeLabel.setBackgroundColor({ r: 0, g: 0, b: 0, a: 1.0 });
       edgeLabel.material.depthTest = false;
-      edgeLabel.visible = false;
+      edgeLabel.visible = true;
       edgeLabel.fontsize = 16;
       this.edgeLabels.push(edgeLabel);
       this.add(edgeLabel);
@@ -284,7 +284,7 @@ export class TopPrismMeasure extends Measure {
     }
   }
 
-  makeEdge(edgeIndex, startPoint, endPoint, visible) {
+  makeEdge(edgeIndex, startPoint, endPoint, visible = true) {
     {
       // edges
 
@@ -333,10 +333,7 @@ export class TopPrismMeasure extends Measure {
       let txtLength = Utils.addCommas(distance.toFixed(2));
       edgeLabel.setText(`${txtLength} ${suffix}`);
       edgeLabel.visible =
-        visible &&
-        this.showDistances &&
-        (this.points.length === 6 || this.closed) &&
-        distance > 0;
+        this.showDistances && this.points.length >= 2 && distance > 0;
     }
   }
 }
