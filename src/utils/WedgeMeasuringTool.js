@@ -65,14 +65,12 @@ export class WedgeMeasuringTool extends MeasuringTool {
       let topPoint1Index = -1;
       let topPoint1Height = 0;
       for (let i = 0; i < 4; i++) {
-        console.log(i, spheres[i].position.z);
         if (spheres[i].position.z > topPoint1Height) {
           topPoint1Height = spheres[i].position.z;
           topPoint1Index = i;
         }
       }
 
-      console.log(topPoint1Index, topPoint1Height);
       namedPoints.topPoint1 = spheres[topPoint1Index];
 
       const prev = spheres[(topPoint1Index + 3) % 4];
@@ -88,8 +86,6 @@ export class WedgeMeasuringTool extends MeasuringTool {
         namedPoints.topPoint2 = prev;
         namedPoints.frontPoint2 = opposite;
       }
-
-      console.log(namedPoints);
 
       wedgeMeasure.addMarker(
         new THREE.Vector3(
@@ -110,9 +106,7 @@ export class WedgeMeasuringTool extends MeasuringTool {
       namedPoints.backPoint1 = spheres[4];
       namedPoints.backPoint2 = spheres[5];
 
-      console.log(spheres);
-
-      wedgeMeasure.make3DShape();
+      wedgeMeasure.addExtraEdges();
 
       domElement.removeEventListener('mouseup', insertionCallback, false);
       this.viewer.removeEventListener('cancel_insertions', cancel.callback);

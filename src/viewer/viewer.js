@@ -24,6 +24,7 @@ import { Sidebar } from './sidebar.js';
 import { AnnotationTool } from '../utils/AnnotationTool.js';
 import { MeasuringTool } from '../utils/MeasuringTool.js';
 import { WedgeMeasuringTool } from '../utils/WedgeMeasuringTool.js';
+import { BoxMeasuringTool } from '../utils/BoxMeasuringTool.js';
 import { ProfileTool } from '../utils/ProfileTool.js';
 import { VolumeTool } from '../utils/VolumeTool.js';
 
@@ -338,6 +339,7 @@ export class Viewer extends EventDispatcher {
       this.annotationTool = new AnnotationTool(this);
       this.measuringTool = new MeasuringTool(this);
       this.wedgeMeasuringTool = new WedgeMeasuringTool(this);
+      this.boxMeasuringTool = new BoxMeasuringTool(this);
       this.profileTool = new ProfileTool(this);
       this.volumeTool = new VolumeTool(this);
     } catch (e) {

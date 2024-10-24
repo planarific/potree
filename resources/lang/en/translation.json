@@ -21,6 +21,7 @@
     "circle_measurement": "Circle measurement",
     "area_measurement": "Area",
     "wedge_measurement": "Wedge",
+    "box_measurement": "Box",
     "volume_measurement": "Volume measurement",
     "height_profile": "Height profile",
     "annotation": "Annotation",

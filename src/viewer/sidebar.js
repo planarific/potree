@@ -25,6 +25,7 @@ export class Sidebar {
 
     this.measuringTool = viewer.measuringTool;
     this.wedgeMeasuringTool = viewer.wedgeMeasuringTool;
+    this.boxMeasuringTool = viewer.boxMeasuringTool;
     this.profileTool = viewer.profileTool;
     this.volumeTool = viewer.volumeTool;
 
@@ -302,7 +303,7 @@ export class Sidebar {
     // WEDGE
     elToolbar.append(
       this.createToolIcon(
-        Potree.resourcePath + '/icons/top.svg',
+        Potree.resourcePath + '/icons/wedge.svg',
         '[title]tt.wedge_measurement',
         () => {
           $('#menu_measurements').next().slideDown();
@@ -319,14 +320,46 @@ export class Sidebar {
             maxMarkers: 4,
           });
 
-          // let measurementsRoot = $('#jstree_scene')
-          //   .jstree()
-          //   .get_json('measurements');
-          // let jsonNode = measurementsRoot.children.find(
-          //   (child) => child.data.uuid === measurement.uuid
-          // );
-          // $.jstree.reference(jsonNode.id).deselect_all();
-          // $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+          let measurementsRoot = $('#jstree_scene')
+            .jstree()
+            .get_json('measurements');
+          let jsonNode = measurementsRoot.children.find(
+            (child) => child.data.uuid === wedge.uuid
+          );
+          $.jstree.reference(jsonNode.id).deselect_all();
+          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+        }
+      )
+    );
+
+    // BOX
+    elToolbar.append(
+      this.createToolIcon(
+        Potree.resourcePath + '/icons/front.svg',
+        '[title]tt.box_measurement',
+        () => {
+          $('#menu_measurements').next().slideDown();
+          let boxName = prompt('How would you like to name it?', 'Box');
+          if (!boxName) {
+            boxName = 'Box';
+          }
+
+          let box = this.boxMeasuringTool.startInsertion({
+            showDistances: true,
+            showArea: true,
+            closed: true,
+            name: boxName,
+            maxMarkers: 4,
+          });
+
+          let measurementsRoot = $('#jstree_scene')
+            .jstree()
+            .get_json('measurements');
+          let jsonNode = measurementsRoot.children.find(
+            (child) => child.data.uuid === box.uuid
+          );
+          $.jstree.reference(jsonNode.id).deselect_all();
+          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
         }
       )
     );
