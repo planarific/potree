@@ -4,6 +4,8 @@ import { Volume } from './utils/Volume.js';
 import { Profile } from './utils/Profile.js';
 import { Measure } from './utils/Measure.js';
 import { Folder } from './utils/Folder.js';
+import { WedgeMeasure } from './utils/WedgeMeasure.js';
+import { BoxMeasure } from './utils/BoxMeasure.js';
 import { PolygonClipVolume } from './utils/PolygonClipVolume.js';
 
 export class Utils {
@@ -915,43 +917,47 @@ export class Utils {
   }
 
   static getMeasurementIcon(measurement) {
-          if (measurement instanceof Folder) {
-            return `${Potree.resourcePath}/icons/folder.png`;
-          } else if (measurement instanceof Measure) {
-            return `${Potree.resourcePath}/icons/area.svg`;
-          }
-          //   if (
-          //     measurement.showDistances &&
-          //     !measurement.showArea &&
-          //     !measurement.showAngles
-          //   ) {
-          //     return `${Potree.resourcePath}/icons/distance.svg`;
-          //   } else if (
-          //     measurement.showDistances &&
-          //     measurement.showArea &&
-          //     !measurement.showAngles
-          //   ) {
-          //     return `${Potree.resourcePath}/icons/area.svg`;
-          //   } else if (measurement.maxMarkers === 1) {
-          //     return `${Potree.resourcePath}/icons/point.svg`;
-          //   } else if (
-          //     !measurement.showDistances &&
-          //     !measurement.showArea &&
-          //     measurement.showAngles
-          //   ) {
-          //     return `${Potree.resourcePath}/icons/angle.png`;
-          //   } else if (measurement.showHeight) {
-          //     return `${Potree.resourcePath}/icons/height.svg`;
-          //   } else {
-          //     return `${Potree.resourcePath}/icons/area.svg`;
-          //   }
-          // } else if (measurement instanceof Profile) {
-          //   return `${Potree.resourcePath}/icons/profile.svg`;
-          // } else if (measurement instanceof Volume) {
-          //   return `${Potree.resourcePath}/icons/volume.svg`;
-          // } else if (measurement instanceof PolygonClipVolume) {
-          //   return `${Potree.resourcePath}/icons/clip-polygon.svg`;
-          // }
+    if (measurement instanceof Folder) {
+      return `${Potree.resourcePath}/icons/folder.png`;
+    } else if (measurement instanceof WedgeMeasure) {
+      return `${Potree.resourcePath}/icons/wedge.svg`;
+    } else if (measurement instanceof BoxMeasure) {
+      return `${Potree.resourcePath}/icons/front.svg`;
+    } else if (measurement instanceof Measure) {
+      return `${Potree.resourcePath}/icons/area.svg`;
+    }
+    //   if (
+    //     measurement.showDistances &&
+    //     !measurement.showArea &&
+    //     !measurement.showAngles
+    //   ) {
+    //     return `${Potree.resourcePath}/icons/distance.svg`;
+    //   } else if (
+    //     measurement.showDistances &&
+    //     measurement.showArea &&
+    //     !measurement.showAngles
+    //   ) {
+    //     return `${Potree.resourcePath}/icons/area.svg`;
+    //   } else if (measurement.maxMarkers === 1) {
+    //     return `${Potree.resourcePath}/icons/point.svg`;
+    //   } else if (
+    //     !measurement.showDistances &&
+    //     !measurement.showArea &&
+    //     measurement.showAngles
+    //   ) {
+    //     return `${Potree.resourcePath}/icons/angle.png`;
+    //   } else if (measurement.showHeight) {
+    //     return `${Potree.resourcePath}/icons/height.svg`;
+    //   } else {
+    //     return `${Potree.resourcePath}/icons/area.svg`;
+    //   }
+    // } else if (measurement instanceof Profile) {
+    //   return `${Potree.resourcePath}/icons/profile.svg`;
+    // } else if (measurement instanceof Volume) {
+    //   return `${Potree.resourcePath}/icons/volume.svg`;
+    // } else if (measurement instanceof PolygonClipVolume) {
+    //   return `${Potree.resourcePath}/icons/clip-polygon.svg`;
+    // }
   }
 
   static lineToLineIntersection(P0, P1, P2, P3) {
