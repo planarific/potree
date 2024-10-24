@@ -7,6 +7,9 @@ import { PropertiesPanel } from './PropertyPanels/PropertiesPanel.js';
 import { PointCloudTree } from '../PointCloudTree.js';
 import { Profile } from '../utils/Profile.js';
 import { Measure } from '../utils/Measure.js';
+import { Wedge } from '../utils/Wedge.js';
+import { Box } from '../utils/Box.js';
+import { TriangleBox } from '../utils/TriangleBox.js';
 import { Folder } from '../utils/Folder.js';
 import { Annotation } from '../Annotation.js';
 import { CameraMode, ClipTask, ClipMethod } from '../defines.js';
@@ -369,7 +372,10 @@ export class Sidebar {
         '[title]tt.triangle_box_measurement',
         () => {
           $('#menu_measurements').next().slideDown();
-          let triangleBoxName = prompt('How would you like to name it?', 'Triangle box');
+          let triangleBoxName = prompt(
+            'How would you like to name it?',
+            'Triangle box'
+          );
           if (!triangleBoxName) {
             triangleBoxName = 'Triangle box';
           }
@@ -762,7 +768,17 @@ export class Sidebar {
             cameraTarget: node.data.annotation.position.clone(),
           });
 
-          const newObject = new Measure();
+          let newObject;
+          if (node.data.instanceOf === 'Wedge') {
+            newObject = new Wedge();
+          } else if (node.data.instanceOf === 'Box') {
+            newObject = new Box();
+          } else if (node.data.instanceOf === 'TriangleBox') {
+            newObject = new TriangleBox();
+          } else {
+            newObject = new Measure();
+          }
+
           newObject.uuid = generateUUID();
           newObject.nodeID = null;
           newObject.name = newName;
@@ -782,6 +798,13 @@ export class Sidebar {
             const pos = new THREE.Vector3(...point);
             newObject.addMarker(pos);
           }
+
+          if (
+            node.data.instanceOf === 'Wedge' ||
+            node.data.instanceOf === 'Box' ||
+            node.data.instanceOf === 'TriangleBox'
+          )
+            newObject.addExtraEdges();
 
           viewer.scene.addMeasurement(newObject);
           viewer.scene.annotations.add(newAnnotation);
