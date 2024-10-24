@@ -1,6 +1,6 @@
 import * as THREE from '../../libs/three.js/build/three.module.js';
 import { MeasuringTool } from './MeasuringTool.js';
-import { WedgeMeasure } from './WedgeMeasure.js';
+import { Wedge } from './Wedge.js';
 
 export class WedgeMeasuringTool extends MeasuringTool {
   constructor(viewer) {
@@ -10,7 +10,7 @@ export class WedgeMeasuringTool extends MeasuringTool {
   startInsertion(args = {}) {
     let domElement = this.viewer.renderer.domElement;
 
-    let wedgeMeasure = new WedgeMeasure();
+    let wedge = new Wedge();
 
     const pick = (defaul, alternative) => {
       if (defaul != null) {
@@ -20,47 +20,45 @@ export class WedgeMeasuringTool extends MeasuringTool {
       }
     };
 
-    wedgeMeasure.showDistances =
+    wedge.showDistances =
       args.showDistances === null ? true : args.showDistances;
 
-    wedgeMeasure.showArea = pick(args.showArea, false);
-    wedgeMeasure.showAngles = pick(args.showAngles, false);
-    wedgeMeasure.showCoordinates = pick(args.showCoordinates, false);
-    wedgeMeasure.showHeight = pick(args.showHeight, false);
-    wedgeMeasure.showCircle = pick(args.showCircle, false);
-    wedgeMeasure.showAzimuth = pick(args.showAzimuth, false);
-    wedgeMeasure.showEdges = pick(args.showEdges, true);
-    wedgeMeasure.closed = pick(args.closed, false);
-    wedgeMeasure.maxMarkers = pick(args.maxMarkers, Infinity);
-    wedgeMeasure.name = args.name || 'wedgeMeasurement';
+    wedge.showArea = pick(args.showArea, false);
+    wedge.showAngles = pick(args.showAngles, false);
+    wedge.showCoordinates = pick(args.showCoordinates, false);
+    wedge.showHeight = pick(args.showHeight, false);
+    wedge.showCircle = pick(args.showCircle, false);
+    wedge.showAzimuth = pick(args.showAzimuth, false);
+    wedge.showEdges = pick(args.showEdges, true);
+    wedge.closed = pick(args.closed, false);
+    wedge.maxMarkers = pick(args.maxMarkers, Infinity);
+    wedge.name = args.name || 'wedgement';
 
-    this.scene.add(wedgeMeasure);
+    this.scene.add(wedge);
 
     let cancel = {
-      removeLastMarker: wedgeMeasure.maxMarkers > 3,
+      removeLastMarker: wedge.maxMarkers > 3,
       callback: null,
     };
 
     let insertionCallback = (e) => {
       if (e.button === THREE.MOUSE.LEFT) {
-        if (wedgeMeasure.points.length >= wedgeMeasure.maxMarkers) {
+        if (wedge.points.length >= wedge.maxMarkers) {
           cancel.callback();
           return;
         }
 
-        wedgeMeasure.addMarker(
-          wedgeMeasure.points[wedgeMeasure.points.length - 1].position.clone()
-        );
+        wedge.addMarker(wedge.points[wedge.points.length - 1].position.clone());
 
         this.viewer.inputHandler.startDragging(
-          wedgeMeasure.spheres[wedgeMeasure.spheres.length - 1]
+          wedge.spheres[wedge.spheres.length - 1]
         );
       }
     };
 
     cancel.callback = (e) => {
-      const spheres = wedgeMeasure.spheres;
-      const namedPoints = wedgeMeasure.namedPoints;
+      const spheres = wedge.spheres;
+      const namedPoints = wedge.namedPoints;
 
       let topPoint1Index = -1;
       let topPoint1Height = 0;
@@ -87,7 +85,7 @@ export class WedgeMeasuringTool extends MeasuringTool {
         namedPoints.frontPoint2 = opposite;
       }
 
-      wedgeMeasure.addMarker(
+      wedge.addMarker(
         new THREE.Vector3(
           namedPoints.topPoint1.position.x,
           namedPoints.topPoint1.position.y,
@@ -95,7 +93,7 @@ export class WedgeMeasuringTool extends MeasuringTool {
         )
       );
 
-      wedgeMeasure.addMarker(
+      wedge.addMarker(
         new THREE.Vector3(
           namedPoints.topPoint2.position.x,
           namedPoints.topPoint2.position.y,
@@ -106,29 +104,29 @@ export class WedgeMeasuringTool extends MeasuringTool {
       namedPoints.backPoint1 = spheres[4];
       namedPoints.backPoint2 = spheres[5];
 
-      wedgeMeasure.addExtraEdges();
+      wedge.addExtraEdges();
 
       domElement.removeEventListener('mouseup', insertionCallback, false);
       this.viewer.removeEventListener('cancel_insertions', cancel.callback);
-      let centroid = this.calculateCentroid(wedgeMeasure.points);
-      let annotation = this.createAnnotation(wedgeMeasure.name, centroid);
+      let centroid = this.calculateCentroid(wedge.points);
+      let annotation = this.createAnnotation(wedge.name, centroid);
       this.viewer.scene.annotations.add(annotation);
-      wedgeMeasure.annotation = annotation;
+      wedge.annotation = annotation;
     };
 
-    if (wedgeMeasure.maxMarkers > 1) {
+    if (wedge.maxMarkers > 1) {
       this.viewer.addEventListener('cancel_insertions', cancel.callback);
       domElement.addEventListener('mouseup', insertionCallback, false);
     }
 
-    wedgeMeasure.addMarker(new THREE.Vector3(0, 0, 0));
+    wedge.addMarker(new THREE.Vector3(0, 0, 0));
     this.viewer.inputHandler.startDragging(
-      wedgeMeasure.spheres[wedgeMeasure.spheres.length - 1]
+      wedge.spheres[wedge.spheres.length - 1]
     );
 
-    this.viewer.scene.addMeasurement(wedgeMeasure);
+    this.viewer.scene.addMeasurement(wedge);
 
-    return wedgeMeasure;
+    return wedge;
   }
 
   calculateCentroid(points) {

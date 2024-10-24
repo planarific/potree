@@ -6,10 +6,18 @@ import { LineGeometry } from '../../libs/three.js/lines/LineGeometry.js';
 import { LineMaterial } from '../../libs/three.js/lines/LineMaterial.js';
 import { Measure } from './Measure.js';
 
-export class BoxMeasure extends Measure {
+export class Wedge extends Measure {
   constructor(name) {
     super();
-    this.instanceOf = 'Box';
+    this.instanceOf = 'Wedge';
+    this.namedPoints = {
+      topPoint1: null,
+      frontPoint1: null,
+      backPoint1: null,
+      topPoint2: null,
+      frontPoint2: null,
+      backPoint2: null,
+    };
   }
 
   addEdge() {
@@ -47,7 +55,6 @@ export class BoxMeasure extends Measure {
   }
 
   addExtraEdges() {
-    this.addEdge();
     this.addEdge();
     this.addEdge();
     this.addEdge();
@@ -107,29 +114,24 @@ export class BoxMeasure extends Measure {
       }
     }
 
-    if (this.points.length === 8) {
-      const sidesDifference = new THREE.Vector3().subVectors(
-        this.points[7].position,
-        this.points[3].position
+    if (this.edges.length === 9) {
+      this.makeEdge(4, this.namedPoints.backPoint1, this.namedPoints.topPoint1);
+      this.makeEdge(
+        5,
+        this.namedPoints.backPoint1,
+        this.namedPoints.frontPoint1
       );
-
-      for (let i = 0; i < 3; i++) {
-        this.points[i + 4].position = new THREE.Vector3().addVectors(
-          this.points[i].position,
-          sidesDifference
-        );
-      }
-    }
-
-    if (this.edges.length === 12) {
-      for (let i = 0; i < 4; i++) {
-        this.makeEdge(i + 4, this.points[i], this.points[i + 4]);
-        this.makeEdge(
-          i + 8,
-          this.points[i + 4],
-          this.points[i + 5 > 7 ? 4 : i + 5]
-        );
-      }
+      this.makeEdge(6, this.namedPoints.backPoint2, this.namedPoints.topPoint2);
+      this.makeEdge(
+        7,
+        this.namedPoints.backPoint2,
+        this.namedPoints.frontPoint2
+      );
+      this.makeEdge(
+        8,
+        this.namedPoints.backPoint1,
+        this.namedPoints.backPoint2
+      );
     }
   }
 
