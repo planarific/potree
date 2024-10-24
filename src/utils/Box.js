@@ -10,6 +10,7 @@ export class Box extends Measure {
   constructor(name) {
     super();
     this.instanceOf = 'Box';
+    this.color = new THREE.Color(0x00ff00);
   }
 
   addEdge() {

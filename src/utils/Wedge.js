@@ -10,6 +10,7 @@ export class Wedge extends Measure {
   constructor(name) {
     super();
     this.instanceOf = 'Wedge';
+    this.color = new THREE.Color(0x0000ff);
     this.namedPoints = {
       topPoint1: null,
       frontPoint1: null,
