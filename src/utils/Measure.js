@@ -269,7 +269,7 @@ export class Measure extends THREE.Object3D {
     this.maxMarkers = Number.MAX_SAFE_INTEGER;
 
     this.sphereGeometry = new THREE.SphereGeometry(0.4, 10, 10);
-    this.color = new THREE.Color(0xff0000);
+    this.color = new THREE.Color(0xe73100);
 
     this.spheres = [];
     this.edges = [];
