@@ -2,6 +2,7 @@ import * as THREE from '../../libs/three.js/build/three.module.js';
 import { Measure } from './Measure.js';
 import { Wedge } from './Wedge.js';
 import { Box } from './Box.js';
+import { TriangleBox } from './TriangleBox.js';
 import { Utils } from '../utils.js';
 import { CameraMode } from '../defines.js';
 import { EventDispatcher } from '../EventDispatcher.js';
@@ -424,19 +425,13 @@ export class MeasuringTool extends EventDispatcher {
 
     let cancel = {
       removeLastMarker: box.maxMarkers > 3,
-      callback1: null,
-      callback2: null,
+      callback: null,
     };
 
     let insertionCallback = (e) => {
       if (e.button === THREE.MOUSE.LEFT) {
-        // if (box.points.length === box.maxMarkers + 1) {
-        //   cancel.callback1();
-        //   return;
-        // }
-
         if (box.points.length === box.maxMarkers) {
-          cancel.callback1();
+          cancel.callback();
           return;
         }
 
@@ -448,7 +443,7 @@ export class MeasuringTool extends EventDispatcher {
       }
     };
 
-    cancel.callback1 = (e) => {
+    cancel.callback = (e) => {
       for (let i = 4; i < 8; i++) {
         box.addMarker(box.points[3].position.clone());
       }
@@ -458,7 +453,7 @@ export class MeasuringTool extends EventDispatcher {
       box.addExtraEdges();
 
       domElement.removeEventListener('mouseup', insertionCallback, false);
-      this.viewer.removeEventListener('cancel_insertions', cancel.callback1);
+      this.viewer.removeEventListener('cancel_insertions', cancel.callback);
       let centroid = this.calculateCentroid(box.points);
       let annotation = this.createAnnotation(box.name, centroid);
       this.viewer.scene.annotations.add(annotation);
@@ -466,7 +461,7 @@ export class MeasuringTool extends EventDispatcher {
     };
 
     if (box.maxMarkers > 1) {
-      this.viewer.addEventListener('cancel_insertions', cancel.callback1);
+      this.viewer.addEventListener('cancel_insertions', cancel.callback);
       domElement.addEventListener('mouseup', insertionCallback, false);
     }
 
@@ -476,6 +471,87 @@ export class MeasuringTool extends EventDispatcher {
     this.viewer.scene.addMeasurement(box);
 
     return box;
+  }
+
+  startTriangleBoxInsertion(args = {}) {
+    let domElement = this.viewer.renderer.domElement;
+
+    let triangleBox = new TriangleBox();
+
+    const pick = (defaul, alternative) => {
+      if (defaul != null) {
+        return defaul;
+      } else {
+        return alternative;
+      }
+    };
+
+    triangleBox.showDistances =
+      args.showDistances === null ? true : args.showDistances;
+
+    triangleBox.showArea = pick(args.showArea, false);
+    triangleBox.showAngles = pick(args.showAngles, false);
+    triangleBox.showCoordinates = pick(args.showCoordinates, false);
+    triangleBox.showHeight = pick(args.showHeight, false);
+    triangleBox.showCircle = pick(args.showCircle, false);
+    triangleBox.showAzimuth = pick(args.showAzimuth, false);
+    triangleBox.showEdges = pick(args.showEdges, true);
+    triangleBox.closed = pick(args.closed, false);
+    triangleBox.maxMarkers = pick(args.maxMarkers, Infinity);
+    triangleBox.name = args.name || 'boxment';
+
+    this.scene.add(triangleBox);
+
+    let cancel = {
+      removeLastMarker: triangleBox.maxMarkers > 3,
+      callback: null,
+    };
+
+    let insertionCallback = (e) => {
+      if (e.button === THREE.MOUSE.LEFT) {
+        if (triangleBox.points.length === triangleBox.maxMarkers) {
+          cancel.callback();
+          return;
+        }
+
+        triangleBox.addMarker(
+          triangleBox.points[triangleBox.points.length - 1].position.clone()
+        );
+
+        this.viewer.inputHandler.startDragging(
+          triangleBox.spheres[triangleBox.spheres.length - 1]
+        );
+      }
+    };
+
+    cancel.callback = (e) => {
+      for (let i = 3; i < 6; i++) {
+        triangleBox.addMarker(triangleBox.points[2].position.clone());
+      }
+
+      this.viewer.inputHandler.startDragging(triangleBox.spheres[5]);
+
+      triangleBox.addExtraEdges();
+
+      domElement.removeEventListener('mouseup', insertionCallback, false);
+      this.viewer.removeEventListener('cancel_insertions', cancel.callback);
+      let centroid = this.calculateCentroid(triangleBox.points);
+      let annotation = this.createAnnotation(triangleBox.name, centroid);
+      this.viewer.scene.annotations.add(annotation);
+      triangleBox.annotation = annotation;
+    };
+
+    if (triangleBox.maxMarkers > 1) {
+      this.viewer.addEventListener('cancel_insertions', cancel.callback);
+      domElement.addEventListener('mouseup', insertionCallback, false);
+    }
+
+    triangleBox.addMarker(new THREE.Vector3(0, 0, 0));
+    this.viewer.inputHandler.startDragging(triangleBox.spheres[0]);
+
+    this.viewer.scene.addMeasurement(triangleBox);
+
+    return triangleBox;
   }
 
   calculateCentroid(points) {

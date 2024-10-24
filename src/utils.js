@@ -6,6 +6,7 @@ import { Measure } from './utils/Measure.js';
 import { Folder } from './utils/Folder.js';
 import { Wedge } from './utils/Wedge.js';
 import { Box } from './utils/Box.js';
+import { TriangleBox } from './utils/TriangleBox.js';
 import { PolygonClipVolume } from './utils/PolygonClipVolume.js';
 
 export class Utils {
@@ -923,6 +924,8 @@ export class Utils {
       return `${Potree.resourcePath}/icons/wedge.svg`;
     } else if (measurement instanceof Box) {
       return `${Potree.resourcePath}/icons/front.svg`;
+    } else if (measurement instanceof TriangleBox) {
+      return `${Potree.resourcePath}/icons/triangle_box.svg`;
     } else if (measurement instanceof Measure) {
       return `${Potree.resourcePath}/icons/area.svg`;
     }

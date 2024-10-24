@@ -362,6 +362,38 @@ export class Sidebar {
       )
     );
 
+    // TRIANGLE BOX
+    elToolbar.append(
+      this.createToolIcon(
+        Potree.resourcePath + '/icons/triangle_box.svg',
+        '[title]tt.triangle_box_measurement',
+        () => {
+          $('#menu_measurements').next().slideDown();
+          let triangleBoxName = prompt('How would you like to name it?', 'Triangle box');
+          if (!triangleBoxName) {
+            triangleBoxName = 'Triangle box';
+          }
+
+          let triangleBox = this.measuringTool.startTriangleBoxInsertion({
+            showDistances: true,
+            showArea: true,
+            closed: true,
+            name: triangleBoxName,
+            maxMarkers: 3,
+          });
+
+          let measurementsRoot = $('#jstree_scene')
+            .jstree()
+            .get_json('measurements');
+          let jsonNode = measurementsRoot.children.find(
+            (child) => child.data.uuid === triangleBox.uuid
+          );
+          $.jstree.reference(jsonNode.id).deselect_all();
+          $.jstree.reference(jsonNode.id).select_node(jsonNode.id);
+        }
+      )
+    );
+
     // VOLUME
     // elToolbar.append(
     //   this.createToolIcon(

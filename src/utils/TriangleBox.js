@@ -6,11 +6,11 @@ import { LineGeometry } from '../../libs/three.js/lines/LineGeometry.js';
 import { LineMaterial } from '../../libs/three.js/lines/LineMaterial.js';
 import { Measure } from './Measure.js';
 
-export class Box extends Measure {
+export class TriangleBox extends Measure {
   constructor(name) {
     super();
-    this.instanceOf = 'Box';
-    this.color = new THREE.Color(0x00ff00);
+    this.instanceOf = 'TriangleBox';
+    this.color = new THREE.Color(0xfff200);
   }
 
   addEdge() {
@@ -51,13 +51,16 @@ export class Box extends Measure {
     this.addEdge();
     this.addEdge();
     this.addEdge();
-    this.addEdge();
   }
 
   update() {
     if (this.points.length === 0) {
       return;
     }
+
+    let point = this.points[0];
+    let position = point.position;
+    this.spheres[0].position.copy(position);
 
     let lastIndex = this.points.length - 1;
 
@@ -76,8 +79,8 @@ export class Box extends Measure {
       sphere.position.copy(point.position);
       sphere.material.color = this.color;
 
-      if (index < 4) {
-        let nextIndex = index === lastIndex || index === 3 ? 0 : index + 1;
+      if (index < 3) {
+        let nextIndex = index === lastIndex || index === 2 ? 0 : index + 1;
         let visible = index < lastIndex || this.closed;
 
         this.makeEdge(
@@ -89,27 +92,27 @@ export class Box extends Measure {
       }
     }
 
-    if (this.points.length === 8) {
+    if (this.points.length === 6) {
       const sidesDifference = new THREE.Vector3().subVectors(
-        this.points[7].position,
-        this.points[3].position
+        this.points[5].position,
+        this.points[2].position
       );
 
-      for (let i = 0; i < 3; i++) {
-        this.points[i + 4].position = new THREE.Vector3().addVectors(
+      for (let i = 0; i < 2; i++) {
+        this.points[i + 3].position = new THREE.Vector3().addVectors(
           this.points[i].position,
           sidesDifference
         );
       }
     }
 
-    if (this.edges.length === 12) {
-      for (let i = 0; i < 4; i++) {
-        this.makeEdge(i + 4, this.points[i], this.points[i + 4]);
+    if (this.edges.length === 9) {
+      for (let i = 0; i < 3; i++) {
+        this.makeEdge(i + 3, this.points[i], this.points[i + 3]);
         this.makeEdge(
-          i + 8,
-          this.points[i + 4],
-          this.points[i + 5 > 7 ? 4 : i + 5]
+          i + 6,
+          this.points[i + 3],
+          this.points[i + 4 > 5 ? 3 : i + 4]
         );
       }
     }

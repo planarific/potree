@@ -22,6 +22,7 @@
     "area_measurement": "Area",
     "wedge_measurement": "Wedge",
     "box_measurement": "Box",
+    "triangle_box_measurement": "Triangle Box",
     "volume_measurement": "Volume measurement",
     "height_profile": "Height profile",
     "annotation": "Annotation",
