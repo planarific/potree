@@ -599,7 +599,7 @@ export class Sidebar {
     let createNode = (parent, text, icon, object, position = 'last', id) => {
       if (object instanceof Measure) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
-        let renameIconPath = Potree.resourcePath + '/icons/rename.png';
+        let renameIconPath = Potree.resourcePath + '/icons/rename.svg';
         let copyIconPath = Potree.resourcePath + '/icons/copy.svg';
         let removeIcon = `<img nodeID name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
         let renameIcon = `<img nodeID name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
@@ -609,7 +609,7 @@ export class Sidebar {
 
       if (object instanceof Folder) {
         let removeIconPath = Potree.resourcePath + '/icons/remove.svg';
-        let renameIconPath = Potree.resourcePath + '/icons/rename.png';
+        let renameIconPath = Potree.resourcePath + '/icons/rename.svg';
         let removeIcon = `<img nodeID name="remove" class="button-icon" src="${removeIconPath}" style="width: 16px; height: 16px"/>`;
         let renameIcon = `<img nodeID name="rename" class="button-icon" src="${renameIconPath}" style="width: 16px; height: 16px"/>`;
         text = `${text} ${renameIcon} ${removeIcon}`;
