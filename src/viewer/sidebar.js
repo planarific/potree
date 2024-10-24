@@ -24,8 +24,6 @@ export class Sidebar {
     this.viewer = viewer;
 
     this.measuringTool = viewer.measuringTool;
-    this.wedgeMeasuringTool = viewer.wedgeMeasuringTool;
-    this.boxMeasuringTool = viewer.boxMeasuringTool;
     this.profileTool = viewer.profileTool;
     this.volumeTool = viewer.volumeTool;
 
@@ -281,7 +279,7 @@ export class Sidebar {
           if (!measurementName) {
             measurementName = 'Area'; // Default to "Area" if no input is given
           }
-          let measurement = this.measuringTool.startInsertion({
+          let measurement = this.measuringTool.startAreaInsertion({
             showDistances: true,
             showArea: true,
             closed: true,
@@ -312,7 +310,7 @@ export class Sidebar {
             wedgeName = 'Wedge';
           }
 
-          let wedge = this.wedgeMeasuringTool.startInsertion({
+          let wedge = this.measuringTool.startWedgeInsertion({
             showDistances: true,
             showArea: true,
             closed: true,
@@ -344,7 +342,7 @@ export class Sidebar {
             boxName = 'Box';
           }
 
-          let box = this.boxMeasuringTool.startInsertion({
+          let box = this.measuringTool.startBoxInsertion({
             showDistances: true,
             showArea: true,
             closed: true,
