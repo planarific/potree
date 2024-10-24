@@ -425,13 +425,19 @@ export class MeasuringTool extends EventDispatcher {
 
     let cancel = {
       removeLastMarker: box.maxMarkers > 3,
-      callback: null,
+      callback1: null,
+      callback2: null,
     };
 
     let insertionCallback = (e) => {
       if (e.button === THREE.MOUSE.LEFT) {
         if (box.points.length === box.maxMarkers) {
-          cancel.callback();
+          cancel.callback1();
+          return;
+        }
+
+        if (box.points.length === box.maxMarkers * 2) {
+          cancel.callback2();
           return;
         }
 
@@ -443,17 +449,18 @@ export class MeasuringTool extends EventDispatcher {
       }
     };
 
-    cancel.callback = (e) => {
+    cancel.callback1 = (e) => {
       for (let i = 4; i < 8; i++) {
         box.addMarker(box.points[3].position.clone());
       }
-
       this.viewer.inputHandler.startDragging(box.spheres[7]);
-
       box.addExtraEdges();
+      this.viewer.removeEventListener('cancel_insertions1', cancel.callback1);
+    };
 
+    cancel.callback2 = (e) => {
       domElement.removeEventListener('mouseup', insertionCallback, false);
-      this.viewer.removeEventListener('cancel_insertions', cancel.callback);
+      this.viewer.removeEventListener('cancel_insertions2', cancel.callback2);
       let centroid = this.calculateCentroid(box.points);
       let annotation = this.createAnnotation(box.name, centroid);
       this.viewer.scene.annotations.add(annotation);
@@ -461,15 +468,14 @@ export class MeasuringTool extends EventDispatcher {
     };
 
     if (box.maxMarkers > 1) {
-      this.viewer.addEventListener('cancel_insertions', cancel.callback);
+      this.viewer.addEventListener('cancel_insertions1', cancel.callback1);
+      this.viewer.addEventListener('cancel_insertions2', cancel.callback2);
       domElement.addEventListener('mouseup', insertionCallback, false);
     }
 
     box.addMarker(new THREE.Vector3(0, 0, 0));
     this.viewer.inputHandler.startDragging(box.spheres[0]);
-
     this.viewer.scene.addMeasurement(box);
-
     return box;
   }
 
@@ -504,13 +510,19 @@ export class MeasuringTool extends EventDispatcher {
 
     let cancel = {
       removeLastMarker: triangleBox.maxMarkers > 3,
-      callback: null,
+      callback1: null,
+      callback2: null,
     };
 
     let insertionCallback = (e) => {
       if (e.button === THREE.MOUSE.LEFT) {
         if (triangleBox.points.length === triangleBox.maxMarkers) {
-          cancel.callback();
+          cancel.callback1();
+          return;
+        }
+
+        if (triangleBox.points.length === triangleBox.maxMarkers * 2) {
+          cancel.callback2();
           return;
         }
 
@@ -524,17 +536,18 @@ export class MeasuringTool extends EventDispatcher {
       }
     };
 
-    cancel.callback = (e) => {
+    cancel.callback1 = (e) => {
       for (let i = 3; i < 6; i++) {
         triangleBox.addMarker(triangleBox.points[2].position.clone());
       }
-
       this.viewer.inputHandler.startDragging(triangleBox.spheres[5]);
-
       triangleBox.addExtraEdges();
+      this.viewer.removeEventListener('cancel_insertions1', cancel.callback1);
+    };
 
+    cancel.callback2 = (e) => {
       domElement.removeEventListener('mouseup', insertionCallback, false);
-      this.viewer.removeEventListener('cancel_insertions', cancel.callback);
+      this.viewer.removeEventListener('cancel_insertions2', cancel.callback2);
       let centroid = this.calculateCentroid(triangleBox.points);
       let annotation = this.createAnnotation(triangleBox.name, centroid);
       this.viewer.scene.annotations.add(annotation);
@@ -542,15 +555,14 @@ export class MeasuringTool extends EventDispatcher {
     };
 
     if (triangleBox.maxMarkers > 1) {
-      this.viewer.addEventListener('cancel_insertions', cancel.callback);
+      this.viewer.addEventListener('cancel_insertions1', cancel.callback1);
+      this.viewer.addEventListener('cancel_insertions2', cancel.callback2);
       domElement.addEventListener('mouseup', insertionCallback, false);
     }
 
     triangleBox.addMarker(new THREE.Vector3(0, 0, 0));
     this.viewer.inputHandler.startDragging(triangleBox.spheres[0]);
-
     this.viewer.scene.addMeasurement(triangleBox);
-
     return triangleBox;
   }
 
